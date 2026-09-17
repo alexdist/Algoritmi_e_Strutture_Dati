@@ -1,0 +1,41 @@
+Dato un grafo connesso orientato G=(V,E), con funzione peso w:E->R e un vertice r, 
+si scriva un algoritmo che restituisca un ciclo di peso negativo raggiungibile da r, se esiste, e NULL altrimenti.
+
+CICLO-NEGATIVO(G, w, r)
+
+INITIALIZE-SINGLE-SOURCE(G, r)          // Inizializza d[r]=0, gli altri d[v]=∞ e π[v]=NIL
+
+for i <- 1 to |V|-1                    // Bellman-Ford esegue |V|-1 iterazioni
+    for ogni arco (u,v) ∈ E            // Scorro tutti gli archi del grafo
+        RELAX(u,v,w)                    // Provo a migliorare d[v] passando per u
+                                        // Se migliora, viene anche posto π[v]=u
+
+
+x <- NIL                                // Per ora non ho trovato nessun ciclo negativo
+
+for ogni arco (u,v) ∈ E                // Faccio una scansione aggiuntiva degli archi
+    if d[v] > d[u] + w(u,v)            // Se posso ancora rilassare, esiste un ciclo negativo
+        d[v] <- d[u] + w(u,v)          // Aggiorno la distanza di v
+        π[v] <- u                       // Aggiorno il predecessore di v
+        x <- v                          // Salvo un vertice collegato al ciclo negativo
+
+
+if x = NIL                              // Se nessun arco è stato rilassato
+    return NULL                         // Non esiste un ciclo negativo raggiungibile da r
+
+
+for i <- 1 to |V|                      // Faccio |V| passi per essere sicuro di entrare nel ciclo
+    x <- π[x]                           // Ogni volta mi sposto al predecessore di x
+
+
+start <- x                              // Ora x è nel ciclo: ricordo il punto di partenza
+C <- lista vuota                        // Qui salverò gli archi del ciclo
+
+
+do                                      // Entro nel ciclo almeno una volta
+    aggiungi (π[x],x) a C               // Salvo l'arco che va dal predecessore di x a x
+    x <- π[x]                           // Mi sposto al predecessore
+while x != start                        // Continuo finché non torno al punto di partenza
+
+
+return C                                // Restituisco gli archi del ciclo negativo
