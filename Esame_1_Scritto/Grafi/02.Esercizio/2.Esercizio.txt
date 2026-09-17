@@ -1,0 +1,62 @@
+TRACCIA
+
+Dato un grafo orientato G=(V,E), scrivere un algoritmo, in pseudocodice, che restituisca il numero degli archi trasversali nel grafo.
+
+
+PSEUDOCODICE
+
+CONTA-ARCHI-TRASVERSALI(G)
+
+    time <- 0                               // Inizializzo il tempo della DFS a 0
+    count <- 0                              // Inizializzo il numero di archi trasversali a 0
+
+    for ogni u in V[G]                     // Scorro tutti i vertici del grafo
+        color[u] <- WHITE                   // Il vertice u non e' ancora stato visitato
+        pi[u] <- NIL                        // Inizialmente u non ha un predecessore
+
+    for ogni u in V[G]                     // Scorro nuovamente tutti i vertici
+        if color[u] = WHITE                 // Se u non e' ancora stato visitato
+            DFS-VISIT(G, u)                 // Avvio la DFS a partire da u
+
+    for ogni arco (u,v) in E[G]            // Scorro tutti gli archi del grafo
+        if d[v] < f[v] < d[u] < f[u]       // Gli intervalli di v e u sono disgiunti:
+                                            // v e' stato completamente visitato prima di u,
+                                            // quindi (u,v) e' un arco trasversale
+            count <- count + 1              // Incremento il numero di archi trasversali
+
+    return count                            // Restituisco il numero di archi trasversali
+
+
+DFS-VISIT(G, u)
+
+    time <- time + 1                        // Incremento il tempo della DFS
+    d[u] <- time                            // Memorizzo il tempo di scoperta di u
+    color[u] <- GRAY                        // u e' stato scoperto ma non ancora completato
+
+    for ogni v in Adj[u]                    // Esamino tutti i vertici adiacenti a u
+        if color[v] = WHITE                 // Se v non e' ancora stato visitato
+            pi[v] <- u                      // Imposto u come predecessore di v
+            DFS-VISIT(G, v)                 // Visito ricorsivamente v
+
+    color[u] <- BLACK                       // La visita di u e' terminata
+    time <- time + 1                        // Incremento nuovamente il tempo
+    f[u] <- time                            // Memorizzo il tempo di fine visita di u
+
+
+COMPLESSITA'
+
+La visita DFS ha complessita':
+
+O(|V| + |E|)
+
+La successiva scansione di tutti gli archi ha complessita':
+
+O(|E|)
+
+Quindi:
+
+O(|V| + |E|) + O(|E|)
+
+La complessita' totale e':
+
+O(|V| + |E|)
