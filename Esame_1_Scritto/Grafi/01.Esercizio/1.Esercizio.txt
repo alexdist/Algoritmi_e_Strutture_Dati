@@ -1,6 +1,8 @@
 Dato un grafo connesso orientato G=(V,E), con funzione peso w:E->R e un vertice r, 
 si scriva un algoritmo che restituisca un ciclo di peso negativo raggiungibile da r, se esiste, e NULL altrimenti.
 
+ALGORITMO DI BASE UTILIZZATO: BELLMAN-FORD
+
 CICLO-NEGATIVO(G, w, r)
 
 INITIALIZE-SINGLE-SOURCE(G, r)          // Inizializza d[r]=0, gli altri d[v]=∞ e π[v]=NIL
