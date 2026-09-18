@@ -4,6 +4,7 @@ Dato un grafo connesso non orientato G=(V,E), con funzione peso w:E→R,
 ed un vertice r∈V, si scriva un algoritmo in pseudocodice che restituisca
 il nodo di grado minimo del MST radicato in r (esclusi i nodi foglia).
 
+ALGORITMO DI BASE UTILIZZATO: PRIM
 
 PSEUDOCODICE
 
