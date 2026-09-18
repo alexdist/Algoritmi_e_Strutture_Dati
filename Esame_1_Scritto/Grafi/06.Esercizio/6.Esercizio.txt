@@ -1,0 +1,92 @@
+TRACCIA
+
+Dato un grafo connesso non orientato pesato G=(V,E), con pesi w(u,v),
+ed un vertice r ∈ V, si scriva un algoritmo in pseudocodice che restituisca
+il nodo di grado massimo del MST radicato in r.
+
+
+ALGORITMO DI BASE UTILIZZATO: PRIM
+
+
+PSEUDOCODICE
+
+MST-PRIM-GRADO-MASSIMO(G, w, r)
+
+    Q <- V[G]                              // Inserisco tutti i vertici nella coda di priorità
+
+    for ogni u ∈ V[G]                     // Inizializzo tutti i vertici
+        key[u] <- +∞                       // Inizialmente non conosco archi per collegare u all'MST
+        π[u] <- NIL                        // Inizialmente u non ha un predecessore
+
+    key[r] <- 0                            // La radice r viene estratta per prima
+
+    while Q != insieme vuoto              // Continuo finché tutti i vertici non entrano nell'MST
+
+        u <- EXTRACT-MIN(Q)                // Estraggo il vertice con key minima
+
+        for ogni v ∈ Adj[u]               // Scorro tutti i vertici adiacenti a u
+
+            if v ∈ Q AND w(u,v) < key[v]  // Se trovo un arco migliore per collegare v all'MST
+
+                π[v] <- u                  // u diventa il predecessore di v nell'MST
+                key[v] <- w(u,v)           // Aggiorno il peso minimo per collegare v all'MST
+
+
+    count <- array vuoto                   // Array che conterrà il grado di ogni nodo
+    maxNodo <- NIL                         // Inizialmente non ho ancora trovato il nodo di grado massimo
+    maxGrado <- -∞                         // Inizializzo il grado massimo trovato
+
+
+    for ogni v ∈ V[G]                     // Inizializzo il grado di ogni nodo dell'MST
+        count[v] <- 0                      // Inizialmente non ho ancora contato archi incidenti
+
+
+    for ogni v ∈ V[G]                     // Scorro i predecessori ottenuti tramite Prim
+
+        if π[v] != NIL                     // Se v ha un predecessore, {π[v],v} è un arco dell'MST
+
+            count[v] <- count[v] + 1       // L'arco aumenta di 1 il grado di v
+            count[π[v]] <- count[π[v]] + 1 // L'arco aumenta di 1 anche il grado del predecessore
+
+
+    for ogni v ∈ V[G]                     // Scorro tutti i nodi dell'MST
+
+        if count[v] > maxGrado             // Se il grado di v è maggiore del massimo trovato
+
+            maxGrado <- count[v]           // Aggiorno il grado massimo
+            maxNodo <- v                   // Memorizzo il nodo che possiede tale grado
+
+
+    return maxNodo                         // Restituisco il nodo di grado massimo dell'MST
+
+
+
+COMPLESSITA'
+
+Utilizzando Prim con liste di adiacenza e una coda di priorità
+implementata tramite min-heap, la costruzione dell'MST costa:
+
+O(|E| log |V|)
+
+L'inizializzazione dell'array count richiede:
+
+O(|V|)
+
+La scansione dei predecessori π[v] per calcolare il grado
+dei nodi dell'MST richiede:
+
+O(|V|)
+
+La ricerca del nodo di grado massimo richiede:
+
+O(|V|)
+
+Quindi:
+
+O(|E| log |V|) + O(|V|) + O(|V|) + O(|V|)
+
+Poiché il grafo è connesso, |E| >= |V|-1.
+
+La complessità totale è quindi:
+
+O(|E| log |V|)
