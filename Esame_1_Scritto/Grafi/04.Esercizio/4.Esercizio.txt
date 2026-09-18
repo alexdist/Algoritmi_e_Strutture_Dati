@@ -1,0 +1,89 @@
+TRACCIA
+
+Dato un grafo connesso non orientato G=(V,E), con funzione peso w:E→R,
+ed un vertice r∈V, si scriva un algoritmo in pseudocodice che restituisca
+il nodo di grado minimo del MST radicato in r (esclusi i nodi foglia).
+
+
+PSEUDOCODICE
+
+MST-PRIM-GRADO-MINIMO(G, w, r)
+
+    Q <- V[G]                              // Inserisco tutti i vertici nella coda di priorità
+
+    for ogni u ∈ V[G]                     // Inizializzo tutti i vertici
+        key[u] <- +∞                       // Inizialmente non conosco archi per collegare u all'MST
+        π[u] <- NIL                        // Inizialmente u non ha un predecessore
+
+    key[r] <- 0                            // La radice r viene estratta per prima
+
+    while Q != insieme vuoto              // Continuo finché tutti i vertici non entrano nell'MST
+
+        u <- EXTRACT-MIN(Q)                // Estraggo il vertice con key minima
+
+        for ogni v ∈ Adj[u]               // Scorro tutti i vertici adiacenti a u
+
+            if v ∈ Q AND w(u,v) < key[v]  // Se trovo un arco migliore per collegare v all'MST
+
+                π[v] <- u                  // u diventa il predecessore di v nell'MST
+                key[v] <- w(u,v)           // Aggiorno il peso minimo per collegare v all'MST
+
+
+    for ogni v ∈ V[G]                     // Inizializzo il grado di ogni nodo dell'MST
+        count[v] <- 0                      // Inizialmente non ho ancora contato archi incidenti
+
+
+    for ogni v ∈ V[G]                     // Scorro i predecessori ottenuti tramite Prim
+
+        if π[v] != NIL                     // Se v ha un predecessore, esiste l'arco {π[v],v} nell'MST
+
+            count[v] <- count[v] + 1       // L'arco aumenta di 1 il grado di v
+            count[π[v]] <- count[π[v]] + 1 // L'arco aumenta di 1 anche il grado del predecessore
+
+
+    minGrado <- +∞                         // Inizializzo il grado minimo trovato
+    minNodo <- NIL                         // Inizialmente non ho ancora trovato un nodo valido
+
+
+    for ogni v ∈ V[G]                     // Scorro tutti i nodi dell'MST
+
+        if count[v] > 1 AND                // count[v] > 1 significa che v non è una foglia
+           count[v] < minGrado             // Controllo se il suo grado è il minimo trovato finora
+
+            minGrado <- count[v]           // Aggiorno il grado minimo
+            minNodo <- v                   // Memorizzo il nodo che possiede tale grado
+
+
+    return minNodo                         // Restituisco il nodo non foglia di grado minimo
+
+
+
+COMPLESSITA'
+
+Utilizzando Prim con liste di adiacenza e una coda di priorità
+implementata tramite min-heap, la costruzione dell'MST costa:
+
+O(|E| log |V|)
+
+L'inizializzazione dell'array count richiede:
+
+O(|V|)
+
+La scansione dei predecessori π[v] per calcolare il grado
+dei nodi dell'MST richiede:
+
+O(|V|)
+
+La ricerca del nodo non foglia di grado minimo richiede:
+
+O(|V|)
+
+Quindi:
+
+O(|E| log |V|) + O(|V|) + O(|V|) + O(|V|)
+
+Poiché il grafo è connesso, |E| >= |V|-1.
+
+La complessità totale è quindi:
+
+O(|E| log |V|)
