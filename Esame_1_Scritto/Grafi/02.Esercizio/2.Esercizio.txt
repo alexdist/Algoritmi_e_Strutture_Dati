@@ -2,6 +2,8 @@ TRACCIA
 
 Dato un grafo orientato G=(V,E), scrivere un algoritmo, in pseudocodice, che restituisca il numero degli archi trasversali nel grafo.
 
+ALGORITMO DI BASE UTILIZZATO: DFS (DEPTH-FIRST SEARCH)
+
 
 PSEUDOCODICE
 
