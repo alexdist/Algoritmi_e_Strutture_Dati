@@ -4,6 +4,7 @@ Dato un grafo connesso orientato G=(V,E) con funzione peso w:E→R ed un vertice
 si scriva un algoritmo (in pseudocodice) che restituisca l'altezza dell'albero
 dei cammini minimi.
 
+ALGORITMO DI BASE UTILIZZATO: BELLMAN-FORD
 
 PSEUDOCODICE
 
