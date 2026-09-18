@@ -1,0 +1,68 @@
+TRACCIA
+
+Scrivere un algoritmo, in pseudocodice, che restituisca il numero totale
+degli scambi necessari ad implementare l'operazione di inserimento di una
+chiave in una coda di min-priorità realizzata mediante un Heap.
+
+
+PSEUDOCODICE
+
+MIN-HEAP-INSERT(A, key)
+
+    A.heap-size <- A.heap-size + 1                  // Aumento di 1 la dimensione dell'heap
+
+    A[A.heap-size] <- +infinito                     // Creo la nuova posizione in fondo all'heap
+                                                    // assegnandole inizialmente valore +infinito
+
+    return HEAP-DECREASE-KEY(A, A.heap-size, key)   // Inserisco la nuova chiave e restituisco
+                                                    // il numero di scambi necessari
+
+
+HEAP-DECREASE-KEY(A, i, key)
+
+    if key > A[i]                                   // DECREASE-KEY può solamente diminuire
+        return ERRORE                               // il valore della chiave corrente
+
+    A[i] <- key                                     // Assegno la nuova chiave alla posizione i
+
+    count <- 0                                      // Inizializzo il numero di scambi a 0
+
+    while i > 1 AND A[PARENT(i)] > A[i]            // Finché non sono alla radice e il padre
+                                                    // è maggiore del figlio, la proprietà
+                                                    // del Min-Heap non è rispettata
+
+        SWAP(A[i], A[PARENT(i)])                    // Scambio la chiave con il proprio padre
+
+        count <- count + 1                          // Incremento il numero totale di scambi
+
+        i <- PARENT(i)                              // La chiave è salita: aggiorno la sua posizione
+
+    return count                                    // Restituisco il numero di scambi effettuati
+
+
+COMPLESSITA'
+
+L'inserimento della nuova posizione nell'Heap richiede tempo costante:
+
+O(1)
+
+Nel caso peggiore, la nuova chiave può essere più piccola di tutti i suoi
+antenati e deve quindi risalire dalla sua posizione fino alla radice.
+
+Poiché un Heap è un albero binario completo, la sua altezza è:
+
+h = floor(log2(n))
+
+Ad ogni livello viene effettuato al massimo uno scambio.
+
+Il numero massimo di scambi è quindi:
+
+O(log n)
+
+e la complessità temporale dell'operazione di inserimento è:
+
+O(log n)
+
+Il valore restituito da count rappresenta invece il numero effettivo di
+scambi effettuati durante lo specifico inserimento, che può variare da
+0 fino a circa log2(n).
