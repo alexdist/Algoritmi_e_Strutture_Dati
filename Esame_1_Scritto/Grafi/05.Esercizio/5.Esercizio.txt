@@ -1,0 +1,85 @@
+TRACCIA
+
+Dato un grafo non orientato G=(V,E), un nodo sorgente s∈V, scrivere un
+algoritmo, in pseudocodice, che restituisca la lista dei nodi il cui
+cammino minimo dal nodo sorgente s è massimo.
+
+
+ALGORITMO DI BASE UTILIZZATO: BFS (BREADTH-FIRST SEARCH)
+
+
+PSEUDOCODICE
+
+NODI-DISTANZA-MASSIMA(G, s)
+
+    for ogni vertice u ∈ V[G] - {s}        // Inizializzo tutti i vertici diversi dalla sorgente
+        color[u] <- WHITE                   // Il vertice u non è ancora stato visitato
+        π[u] <- NIL                         // Inizialmente u non ha un predecessore
+        d[u] <- +∞                          // La distanza di u dalla sorgente è inizialmente infinita
+
+    color[s] <- GRAY                        // La sorgente viene scoperta
+    d[s] <- 0                               // La distanza della sorgente da se stessa è 0
+    π[s] <- NIL                             // La sorgente non ha predecessore
+
+    Q <- insieme vuoto                      // Inizializzo la coda utilizzata dalla BFS
+    ENQUEUE(Q, s)                           // Inserisco la sorgente nella coda
+
+    while Q != insieme vuoto                // Continuo finché ci sono vertici da visitare
+
+        u <- DEQUEUE(Q)                     // Estraggo il primo vertice dalla coda
+
+        for ogni v ∈ Adj[u]                 // Scorro tutti i vertici adiacenti a u
+
+            if color[v] = WHITE             // Se v non è ancora stato visitato
+
+                color[v] <- GRAY            // Segno v come scoperto
+                π[v] <- u                   // Imposto u come predecessore di v
+                d[v] <- d[u] + 1            // Calcolo la distanza minima di v dalla sorgente
+                ENQUEUE(Q, v)               // Inserisco v nella coda
+
+        color[u] <- BLACK                   // La visita di u è terminata
+
+
+    maxDist <- -∞                           // Inizializzo la massima distanza trovata
+    C <- lista vuota                        // Lista dei nodi da restituire
+
+
+    for ogni v ∈ V[G]                      // Scorro tutti i vertici del grafo
+
+        if d[v] > maxDist                   // Se trovo una distanza maggiore di quella corrente
+
+            maxDist <- d[v]                 // Aggiorno la massima distanza trovata
+
+
+    for ogni v ∈ V[G]                      // Scorro nuovamente tutti i vertici
+
+        if d[v] = maxDist                   // Se v si trova alla massima distanza dalla sorgente
+
+            aggiungi v a C                  // Inserisco v nella lista dei nodi da restituire
+
+
+    return C                                // Restituisco tutti i nodi a distanza massima da s
+
+
+
+COMPLESSITA'
+
+La visita BFS, utilizzando liste di adiacenza, ha complessità:
+
+O(|V| + |E|)
+
+La prima scansione di tutti i vertici per trovare la distanza massima costa:
+
+O(|V|)
+
+La seconda scansione di tutti i vertici per costruire la lista C costa:
+
+O(|V|)
+
+Quindi:
+
+O(|V| + |E|) + O(|V|) + O(|V|)
+
+La complessità totale è:
+
+O(|V| + |E|)
