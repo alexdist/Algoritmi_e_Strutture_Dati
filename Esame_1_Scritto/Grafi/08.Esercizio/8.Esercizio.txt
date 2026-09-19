@@ -1,0 +1,85 @@
+TRACCIA
+
+Dato un grafo non orientato G=(V,E), un nodo sorgente s ∈ V ed un
+numero intero k ∈ N, scrivere un algoritmo, in pseudocodice, che restituisca
+il numero dei nodi il cui cammino minimo dal nodo sorgente s è minore di k.
+
+
+ALGORITMO DI BASE UTILIZZATO: BFS (BREADTH-FIRST SEARCH)
+
+
+PSEUDOCODICE
+
+CONTA-NODI-DISTANZA-MINORE-K(G, s, k)
+
+    for ogni vertice u ∈ V[G] - {s}        // Inizializzo tutti i vertici diversi dalla sorgente
+        color[u] <- WHITE                   // Il vertice u non è ancora stato visitato
+        π[u] <- NIL                         // Inizialmente u non ha un predecessore
+        d[u] <- +∞                          // La distanza dalla sorgente è inizialmente infinita
+
+    color[s] <- GRAY                        // La sorgente viene scoperta
+    d[s] <- 0                               // La distanza della sorgente da se stessa è 0
+    π[s] <- NIL                             // La sorgente non ha predecessore
+
+    Q <- insieme vuoto                      // Inizializzo la coda utilizzata dalla BFS
+    ENQUEUE(Q, s)                           // Inserisco la sorgente nella coda
+
+    while Q != insieme vuoto                // Continuo finché ci sono vertici da visitare
+
+        u <- DEQUEUE(Q)                     // Estraggo il primo vertice dalla coda
+
+        for ogni v ∈ Adj[u]                 // Scorro tutti i vertici adiacenti a u
+
+            if color[v] = WHITE             // Se v non è ancora stato visitato
+
+                color[v] <- GRAY            // Segno v come scoperto
+                π[v] <- u                   // Imposto u come predecessore di v
+                d[v] <- d[u] + 1            // Calcolo la distanza minima di v dalla sorgente
+                ENQUEUE(Q, v)               // Inserisco v nella coda
+
+        color[u] <- BLACK                   // La visita di u è terminata
+
+
+    count <- 0                              // Inizializzo il numero di nodi con distanza minore di k
+
+    for ogni v ∈ V[G]                      // Scorro tutti i vertici del grafo
+
+        if d[v] < k                         // Se la distanza minima di v da s è minore di k
+
+            count <- count + 1              // Incremento il numero di nodi trovati
+
+
+    return count                            // Restituisco il numero di nodi con distanza minore di k
+
+
+
+COMPLESSITA'
+
+La visita BFS, utilizzando liste di adiacenza, ha complessità:
+
+O(|V| + |E|)
+
+La successiva scansione di tutti i vertici per contare quelli
+con distanza minima da s minore di k costa:
+
+O(|V|)
+
+Quindi:
+
+O(|V| + |E|) + O(|V|)
+
+La complessità totale è:
+
+O(|V| + |E|)
+
+
+NOTA
+
+Se il grafo non è connesso, i vertici non raggiungibili da s mantengono:
+
+d[v] = +∞
+
+e quindi non vengono conteggiati, poiché +∞ non è minore di k.
+
+Inoltre, poiché d[s] = 0, se k > 0 anche il nodo sorgente s
+viene correttamente conteggiato.
