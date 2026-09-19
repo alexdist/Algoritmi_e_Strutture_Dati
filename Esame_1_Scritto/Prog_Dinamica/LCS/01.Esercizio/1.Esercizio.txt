@@ -1,0 +1,96 @@
+TRACCIA
+
+Risolvere il problema della LCS (Longest Common Subsequence)
+utilizzando la tecnica della memoization.
+
+
+ALGORITMO DI BASE UTILIZZATO: LCS CON PROGRAMMAZIONE DINAMICA TOP-DOWN E MEMOIZATION
+
+
+PSEUDOCODICE
+
+LCS-MEMOIZED(X, Y)
+
+    nx <- |X|                               // Memorizzo la lunghezza della sequenza X
+    ny <- |Y|                               // Memorizzo la lunghezza della sequenza Y
+
+    for i <- 1 to nx                       // Scorro tutte le posizioni della sequenza X
+        for j <- 1 to ny                   // Scorro tutte le posizioni della sequenza Y
+            C[i,j] <- -∞                   // La cella non è ancora stata calcolata
+
+    return LCS(nx, ny, X, Y, C)            // Avvio la ricorsione sulle due sequenze complete
+
+
+
+LCS(i, j, X, Y, C)
+
+    if i = 0 OR j = 0                      // Se una delle due sequenze considerate è vuota
+        return 0                            // La LCS ha lunghezza 0
+
+
+    if C[i,j] != -∞                        // Se il sottoproblema è già stato calcolato
+        return C[i,j]                       // Restituisco direttamente il risultato memorizzato
+
+
+    if X[i] = Y[j]                         // Se i due caratteri correnti sono uguali
+
+        C[i,j] <- LCS(i-1, j-1, X, Y, C) + 1
+                                            // Prendo la soluzione diagonale e aggiungo 1
+
+        return C[i,j]                       // Restituisco il risultato appena memorizzato
+
+
+    else                                    // Se i due caratteri correnti sono diversi
+
+        C[i,j] <- MAX(                      // Scelgo il migliore dei due sottoproblemi
+                      LCS(i-1, j, X, Y, C), // Escludo il carattere corrente di X
+                      LCS(i, j-1, X, Y, C)  // Escludo il carattere corrente di Y
+                     )
+
+        return C[i,j]                       // Restituisco il risultato appena memorizzato
+
+
+
+COMPLESSITA'
+
+Siano:
+
+nx = |X|
+ny = |Y|
+
+La tabella C contiene nx * ny sottoproblemi distinti.
+
+L'inizializzazione della tabella richiede:
+
+O(nx * ny)
+
+Grazie alla memoization, ogni sottoproblema (i,j) viene
+effettivamente calcolato una sola volta.
+
+Quando un sottoproblema è già stato calcolato, il suo risultato
+viene recuperato direttamente dalla tabella C.
+
+Il numero totale di sottoproblemi è:
+
+nx * ny
+
+e il lavoro svolto per ogni sottoproblema è O(1).
+
+Quindi la parte ricorsiva ha complessità:
+
+O(nx * ny)
+
+La complessità temporale totale è quindi:
+
+O(nx * ny)
+
+
+COMPLESSITA' SPAZIALE
+
+La tabella C contiene nx * ny celle, quindi richiede:
+
+O(nx * ny)
+
+La complessità spaziale totale è quindi:
+
+O(nx * ny)
