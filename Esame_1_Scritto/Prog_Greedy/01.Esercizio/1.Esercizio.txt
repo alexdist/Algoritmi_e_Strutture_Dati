@@ -1,0 +1,79 @@
+TRACCIA
+
+Risolvere il problema della selezione di attività utilizzando
+una coda di min-priorità.
+
+
+ALGORITMO DI BASE UTILIZZATO: ACTIVITY SELECTION GREEDY CON CODA DI MIN-PRIORITÀ
+
+
+PSEUDOCODICE
+
+ACTIVITY-SELECTION-MIN-PRIORITY(S, F, n)
+
+    A <- insieme vuoto                         // Insieme delle attività selezionate
+
+    Q <- coda di min-priorità vuota            // Creo la coda che conterrà tutte le attività
+
+    for ogni attività i                        // Scorro tutte le n attività
+        MIN-HEAP-INSERT(Q, i, f[i])             // Inserisco i usando il tempo di fine come priorità
+
+
+    k <- EXTRACT-MIN(Q)                         // Estraggo l'attività con tempo di fine minimo
+
+    A <- A ∪ {k}                                // La prima attività estratta viene sempre selezionata
+
+
+    while Q != insieme vuoto                    // Continuo finché ci sono attività da esaminare
+
+        m <- EXTRACT-MIN(Q)                     // Estraggo l'attività con tempo di fine minimo
+
+        if s[m] >= f[k]                         // Se m inizia dopo (o quando) termina l'ultima scelta
+
+            A <- A ∪ {m}                        // Aggiungo m all'insieme delle attività selezionate
+
+            k <- m                              // m diventa l'ultima attività selezionata
+
+
+    return A                                    // Restituisco il massimo insieme di attività compatibili
+
+
+
+COMPLESSITA'
+
+La coda di min-priorità contiene le n attività.
+
+Una singola MIN-HEAP-INSERT costa:
+
+O(log n)
+
+Poiché inseriamo tutte le n attività, il costo complessivo
+per costruire la coda è:
+
+O(n log n)
+
+
+Una singola EXTRACT-MIN costa:
+
+O(log n)
+
+Nel caso peggiore estraiamo tutte le n attività dalla coda,
+quindi il costo complessivo delle estrazioni è:
+
+O(n log n)
+
+
+I controlli di compatibilità e gli inserimenti nell'insieme A
+richiedono tempo costante O(1) per ogni attività, quindi
+complessivamente:
+
+O(n)
+
+
+Quindi:
+
+O(n log n) + O(n log n) + O(n)
+
+La complessità totale è:
+
+O(n log n)
