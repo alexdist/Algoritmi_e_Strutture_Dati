@@ -1,0 +1,90 @@
+TRACCIA
+
+Riscrivere l'algoritmo di Kruskal utilizzando una coda di min-priorità.
+
+
+ALGORITMO DI BASE UTILIZZATO: KRUSKAL CON CODA DI MIN-PRIORITÀ E UNION-FIND
+
+
+PSEUDOCODICE
+
+KRUSKAL-MIN-PRIORITY-QUEUE(G, w)
+
+    A <- insieme vuoto                         // Insieme degli archi che formeranno l'MST
+
+    for ogni v ∈ V[G]                         // Inizializzo gli insiemi disgiunti
+        MAKE-SET(v)                            // Ogni vertice appartiene inizialmente a un insieme separato
+
+
+    Q <- coda di min-priorità vuota            // Creo la coda che conterrà gli archi del grafo
+
+    for ogni arco (u,v) ∈ E[G]                 // Scorro tutti gli archi del grafo
+        MIN-HEAP-INSERT(Q, (u,v), w(u,v))       // Inserisco l'arco usando il suo peso come priorità
+
+
+    while Q != insieme vuoto AND |A| < |V|-1   // Continuo finché ci sono archi e l'MST non è completo
+
+        (u,v) <- EXTRACT-MIN(Q)                 // Estraggo l'arco di peso minimo dalla coda
+
+        if FIND-SET(u) != FIND-SET(v)           // Se u e v appartengono a componenti diverse
+
+            A <- A ∪ {(u,v)}                    // Aggiungo l'arco all'MST
+
+            UNION(u,v)                          // Unisco le due componenti
+
+
+    return A                                    // Restituisco gli archi dell'MST
+
+
+
+COMPLESSITA'
+
+L'inizializzazione degli insiemi disgiunti tramite MAKE-SET richiede:
+
+O(|V|)
+
+
+La coda di min-priorità contiene gli archi del grafo.
+
+Una singola MIN-HEAP-INSERT costa:
+
+O(log |E|)
+
+Poiché inseriamo tutti i |E| archi, il costo complessivo degli inserimenti è:
+
+O(|E| log |E|)
+
+
+Nel caso peggiore il ciclo while può esaminare tutti i |E| archi.
+
+Una singola EXTRACT-MIN costa:
+
+O(log |E|)
+
+Quindi tutte le estrazioni costano complessivamente:
+
+O(|E| log |E|)
+
+
+Utilizzando Union-Find con union by rank e path compression,
+le operazioni FIND-SET e UNION hanno complessità ammortizzata
+legata alla funzione inversa di Ackermann.
+
+Complessivamente questa parte costa:
+
+O(|E| α(|V|))
+
+
+Quindi:
+
+O(|V|) + O(|E| log |E|) + O(|E| log |E|) + O(|E| α(|V|))
+
+
+Il termine dominante è:
+
+O(|E| log |E|)
+
+
+La complessità totale è quindi:
+
+O(|E| log |E|)
