@@ -1,0 +1,122 @@
+TRACCIA
+
+Si scriva un algoritmo, in pseudocodice, che dato un array X ed un
+intero k, restituisca i primi k elementi più grandi dell'array X,
+senza utilizzare alcun algoritmo di ordinamento.
+Si calcoli la complessità computazionale dell'algoritmo.
+
+
+ALGORITMO DI BASE UTILIZZATO:
+
+CODA DI MASSIMA PRIORITÀ IMPLEMENTATA TRAMITE MAX-HEAP
+
+
+PSEUDOCODICE
+
+
+K-ELEMENTI-PIU-GRANDI(X, k)
+
+    n <- X.length                              // Salvo il numero di elementi dell'array
+
+    if k > n                                  // Se vengono richiesti più elementi di quelli presenti
+        return ERRORE
+
+    BUILD-MAX-HEAP(X)                         // Trasformo X in un MAX-HEAP
+
+    R <- nuovo array di dimensione k          // Array che conterrà i k elementi più grandi
+
+    for i <- 1 to k                           // Eseguo k estrazioni
+        R[i] <- HEAP-EXTRACT-MAX(X)           // Estraggo il massimo corrente e lo salvo in R
+
+    return R                                  // Restituisco i k elementi più grandi
+
+
+
+BUILD-MAX-HEAP(X)
+
+    X.heap-size <- X.length                   // Inizialmente tutti gli elementi appartengono all'heap
+
+    for i <- floor(X.length / 2) downto 1     // Scorro tutti i nodi interni dal basso verso l'alto
+        MAX-HEAPIFY(X, i)                     // Ripristino la proprietà di MAX-HEAP
+
+
+
+HEAP-EXTRACT-MAX(X)
+
+    if X.heap-size < 1                        // Controllo che l'heap non sia vuoto
+        return ERRORE
+
+    max <- X[1]                               // La radice contiene il massimo dell'heap
+
+    X[1] <- X[X.heap-size]                    // Porto l'ultimo elemento dell'heap nella radice
+
+    X.heap-size <- X.heap-size - 1            // Riduco la dimensione dell'heap
+
+    MAX-HEAPIFY(X, 1)                         // Ripristino la proprietà di MAX-HEAP dalla radice
+
+    return max                                // Restituisco il massimo estratto
+
+
+
+MAX-HEAPIFY(X, i)
+
+    l <- LEFT(i)                              // Figlio sinistro di i
+    r <- RIGHT(i)                             // Figlio destro di i
+    largest <- i                              // Suppongo inizialmente che i sia il maggiore
+
+    if l <= X.heap-size AND X[l] > X[largest]
+        largest <- l                          // Il figlio sinistro è maggiore
+
+    if r <= X.heap-size AND X[r] > X[largest]
+        largest <- r                          // Il figlio destro è maggiore
+
+    if largest != i                           // Se i non è il maggiore tra i tre
+        SWAP(X[i], X[largest])                // Scambio i con il figlio maggiore
+        MAX-HEAPIFY(X, largest)               // Continuo a ripristinare il MAX-HEAP verso il basso
+
+
+
+COMPLESSITA'
+
+Sia n = X.length.
+
+BUILD-MAX-HEAP(X) ha complessità:
+
+    O(n)
+
+Una singola operazione HEAP-EXTRACT-MAX richiede una chiamata
+a MAX-HEAPIFY e ha complessità:
+
+    O(log n)
+
+HEAP-EXTRACT-MAX viene eseguito k volte, quindi:
+
+    O(k log n)
+
+La complessità totale è:
+
+    O(n) + O(k log n)
+
+quindi:
+
+    O(n + k log n)
+
+
+COMPLESSITA' TOTALE:
+
+    O(n + k log n)
+
+
+NOTA
+
+L'algoritmo non utilizza alcun algoritmo di ordinamento.
+
+Il MAX-HEAP permette di ottenere il massimo corrente dalla radice.
+Dopo ogni estrazione, MAX-HEAPIFY ripristina la proprietà di MAX-HEAP.
+
+Le k estrazioni producono, nell'ordine:
+
+    R[1] = elemento più grande
+    R[2] = secondo elemento più grande
+    ...
+    R[k] = k-esimo elemento più grande
