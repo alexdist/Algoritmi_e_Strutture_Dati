@@ -1,0 +1,8 @@
+Un problema è NP-hard se ogni problema L' ∈ NP è riducibile ad esso in tempo polinomiale; 
+se inoltre non appartiene a NP, non è NP-completo. Un esempio è il problema dell’arresto.
+
+Per la dimostrazione, supponiamo che esista L ∈ NPC con L ∉ P. 
+Per assurdo, supponiamo che esista un altro problema L' ∈ NPC ∩ P. 
+Poiché L' è NP-completo e L ∈ NP, vale L ≤P L'. 
+Per il lemma della riducibilità polinomiale, L' ∈ P ⇒ L ∈ P, contraddicendo l’ipotesi L ∉ P. 
+Quindi nessun problema NP-completo appartiene a P.
