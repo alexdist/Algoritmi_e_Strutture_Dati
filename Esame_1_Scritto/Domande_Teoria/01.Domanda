@@ -1,0 +1,31 @@
+TRACCIA
+
+Definire le classi dei problemi P e NP e dimostrare che P ⊆ NP.
+
+
+RISPOSTA
+
+La classe P è l'insieme dei problemi che possono essere risolti
+in tempo polinomiale, cioè in tempo O(n^k) per qualche costante k.
+
+La classe NP è l'insieme dei problemi la cui soluzione può essere
+verificata in tempo polinomiale mediante un certificato di lunghezza
+polinomiale.
+
+DIMOSTRAZIONE P ⊆ NP
+
+Sia L ∈ P. Esiste quindi un algoritmo A che decide L in tempo
+polinomiale.
+
+Possiamo trasformare A in un algoritmo di verifica A1(x,y) che
+ignora il certificato y ed esegue semplicemente A(x).
+
+Quindi L è anche verificabile in tempo polinomiale e appartiene a NP.
+
+Pertanto:
+
+    L ∈ P  =>  L ∈ NP
+
+e quindi:
+
+    P ⊆ NP
