@@ -1,0 +1,154 @@
+TRACCIA
+
+Ciro è ghiotto di babà. Per il compleanno di Ciro, sua madre si reca
+in pasticceria per acquistarne.
+
+La pasticceria non vende babà singoli, ma soltanto N torte di babà.
+Ogni torta t ha:
+
+    C[t] = costo della torta t
+    B[t] = numero di babà contenuti nella torta t
+
+La madre ha deciso di spendere in pasticceria al massimo E euro.
+
+Scrivere un algoritmo, in pseudocodice, che, ricevendo come input le N
+torte a disposizione e E, restituisca il numero massimo di babà che
+possono essere acquistati.
+
+Si assume che sia possibile acquistare singole fette di torta.
+
+
+ALGORITMO DI BASE UTILIZZATO:
+
+ZAINO FRAZIONARIO (FRACTIONAL KNAPSACK)
+
+
+MAPPATURA DEL PROBLEMA
+
+La corrispondenza con il problema dello zaino frazionario è:
+
+    ZAINO FRAZIONARIO                PROBLEMA DEI BABA'
+
+    oggetto k                   ->   torta t
+
+    w[k]                        ->   C[t]
+    peso dell'oggetto                costo della torta t
+
+    v[k]                        ->   B[t]
+    valore dell'oggetto              numero di babà contenuti nella torta t
+
+    tot                         ->   E
+    capacità massima                 budget massimo disponibile
+
+    capacity                    ->   budget
+    capacità residua                 budget residuo disponibile
+
+    value                       ->   baba
+    valore totale                    numero totale di babà acquistati
+
+    x[k]                        ->   x[t]
+    frazione dell'oggetto            frazione della torta t acquistata
+
+    k                           ->   t
+    indice dell'oggetto              indice della torta
+
+
+Nel problema originale dello zaino frazionario, per ogni oggetto k
+si considera il rapporto:
+
+    v[k] / w[k]
+
+Nel problema dei babà questo rapporto diventa:
+
+    B[t] / C[t]
+
+dove:
+
+    B[t] = numero di babà contenuti nella torta t
+    C[t] = costo della torta t
+
+Il rapporto B[t] / C[t] rappresenta il numero di babà ottenuti
+per ogni euro speso.
+
+Le torte devono essere considerate in ordine decrescente rispetto
+al rapporto:
+
+    B[t] / C[t]
+
+
+PSEUDOCODICE
+
+
+MAX-BABA(C, B, E)
+
+    // Si assumono le N torte ordinate in ordine decrescente
+    // rispetto al rapporto B[t] / C[t]
+
+    for t <- 1 to N
+        x[t] <- 0.0                         // Inizialmente non acquisto nessuna parte della torta t
+
+    baba <- 0.0                             // Numero totale di babà acquistati
+    budget <- E                             // Budget inizialmente disponibile
+    t <- 1                                  // Parto dalla torta con rapporto B[t]/C[t] maggiore
+
+    while t <= N AND budget > 0
+
+        if C[t] <= budget                   // Posso acquistare l'intera torta t
+
+            baba <- baba + B[t]             // Aggiungo tutti i babà della torta
+            budget <- budget - C[t]         // Sottraggo il costo della torta dal budget
+            x[t] <- 1.0                     // Acquisto tutta la torta
+
+        else                                // Non posso acquistare l'intera torta
+
+            x[t] <- budget / C[t]           // Calcolo la frazione di torta acquistabile
+            baba <- baba + x[t] * B[t]      // Aggiungo i babà contenuti nella frazione
+            budget <- 0.0                   // Ho utilizzato tutto il budget disponibile
+
+        t <- t + 1                          // Passo alla torta successiva
+
+    return baba                             // Restituisco il massimo numero di babà acquistabili
+
+
+COMPLESSITA'
+
+Se le N torte sono già ordinate in ordine decrescente rispetto
+al rapporto B[t] / C[t]:
+
+    - inizializzazione dell'array x: O(N)
+    - ciclo while:                  O(N)
+
+La complessità dell'algoritmo dello zaino frazionario è quindi:
+
+    O(N)
+
+
+Se invece le torte NON sono già ordinate, bisogna prima ordinarle
+in ordine decrescente rispetto al rapporto B[t] / C[t].
+
+Utilizzando un algoritmo di ordinamento efficiente:
+
+    ordinamento:                   O(N log N)
+    zaino frazionario:             O(N)
+
+La complessità complessiva diventa:
+
+    O(N log N) + O(N) = O(N log N)
+
+
+COMPLESSITA' TOTALE:
+
+    Torte già ordinate:            O(N)
+
+    Torte non ordinate:            O(N log N)
+
+
+OSSERVAZIONE
+
+La possibilità di acquistare singole fette permette di modellare
+il problema come uno zaino frazionario: è possibile acquistare una
+frazione x[t] di una torta.
+
+La scelta greedy consiste nell'acquistare prima le torte con il
+rapporto B[t] / C[t] più alto, cioè quelle che forniscono il maggior
+numero di babà per ogni euro speso.
