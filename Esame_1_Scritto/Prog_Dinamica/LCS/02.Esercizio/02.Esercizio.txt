@@ -1,0 +1,50 @@
+TRACCIA
+
+Risolvere con la tecnica della memoization il problema CALCOLA-NUMERI
+descritto dalla seguente equazione di ricorsione:
+
+    G(n) = G(n-1) + G(n-2) + G(n-3)
+
+con:
+
+    G(0) = G(1) = G(2) = 1
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Memoization (Top-Down).
+
+
+PSEUDOCODICE
+
+CALCOLA-NUMERI(n)
+
+    M <- nuovo array di dimensione n+1
+
+    for i <- 0 to n
+        M[i] <- -∞
+
+    return G-MEMO(n, M)
+
+
+G-MEMO(n, M)
+
+    if M[n] != -∞
+        return M[n]
+
+    if n == 0 OR n == 1 OR n == 2
+        return 1
+
+    M[n] <- G-MEMO(n-1, M) + G-MEMO(n-2, M) + G-MEMO(n-3, M)
+
+    return M[n]
+
+
+COMPLESSITA'
+
+Ogni sottoproblema G(i) viene calcolato una sola volta e,
+se richiesto nuovamente, il risultato viene recuperato dall'array M.
+
+Tempo: O(n)
+
+Spazio: O(n)
