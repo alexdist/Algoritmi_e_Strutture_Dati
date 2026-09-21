@@ -12,8 +12,8 @@ Ogni torta t ha:
 La madre ha deciso di spendere in pasticceria al massimo E euro.
 
 Scrivere un algoritmo, in pseudocodice, che, ricevendo come input le N
-torte a disposizione e E, restituisca il numero massimo di babà che
-possono essere acquistati.
+torte a disposizione e E la somma massima a disposizione, 
+restituisca il numero massimo di babà che possono essere acquistati.
 
 Si assume che sia possibile acquistare singole fette di torta.
 
