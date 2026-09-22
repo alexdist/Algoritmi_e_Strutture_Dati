@@ -1,0 +1,71 @@
+TRACCIA
+
+Data la sequenza dei numeri F(x,z) = max(F(x-1,z-1)+1, F(x-1,z-1) F(x,z)) con F(x,0) = 1 Per ogni x;
+F(0,z)=1 per ogni z.
+Dire se la sequenza dei numeri gode della proprietà della sottostruttura ottima. Se la possiede,
+scrivere un algoritmo, in pseudocodice, utilizzando la memoization, che riceva come input x,z e
+restituisca, come output, il valore F(x,z). Calcolare la complessità spaziale e computazionale
+dell'algoritmo.
+
+NOTA:
+Nella traccia originale la ricorrenza contiene probabilmente un errore,
+poiché nel secondo termine compare nuovamente F(x,z), causando una
+chiamata ricorsiva sullo stesso problema senza riduzione dei parametri.
+
+Per lo svolgimento si assume quindi la seguente ricorrenza corretta:
+
+    F(x,z) = max(F(x-1,z-1) + 1, F(x-1,z-1))
+
+con i casi base:
+
+    F(x,0) = 1
+    F(0,z) = 1
+
+
+PROPRIETA' DELLA SOTTOSTRUTTURA OTTIMA
+
+Il problema gode della proprietà della sottostruttura ottima,
+poiché la soluzione del problema F(x,z) viene costruita a partire
+dalle soluzioni dei suoi sottoproblemi.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Memoization (Top-Down).
+
+
+PSEUDOCODICE
+
+CALCOLA-F(x, z)
+
+    M <- nuova matrice di dimensione (x+1) x (z+1)
+
+    for i <- 0 to x
+        for j <- 0 to z
+            M[i,j] <- -∞
+
+    return F-MEMO(x, z, M)
+
+
+F-MEMO(x, z, M)
+
+    if M[x,z] != -∞
+        return M[x,z]
+
+    if x = 0 OR z = 0
+        return 1
+
+    M[x,z] <- max(F-MEMO(x-1,z-1,M) + 1,
+                  F-MEMO(x-1,z-1,M))
+
+    return M[x,z]
+
+
+COMPLESSITA'
+
+Grazie alla memoization ogni sottoproblema viene calcolato
+al massimo una volta e il risultato viene memorizzato nella matrice M.
+
+Tempo: O(x * z)
+
+Spazio: O(x * z)
