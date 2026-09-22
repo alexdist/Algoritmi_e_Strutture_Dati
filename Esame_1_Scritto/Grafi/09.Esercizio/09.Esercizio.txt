@@ -1,0 +1,65 @@
+TRACCIA
+
+Dato un grafo orientato G = (V,E) non pesato, scrivere un algoritmo
+in pseudocodice che restituisca TRUE se nel grafo c'è almeno un arco
+trasversale; altrimenti restituisca FALSE.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+DFS (DEPTH-FIRST SEARCH)
+
+
+PSEUDOCODICE
+
+ARCO-TRASVERSALE(G)
+
+    for ogni u ∈ V[G]                       // Inizializzo tutti i vertici
+        color[u] <- WHITE                   // Il vertice non è ancora stato visitato
+        π[u] <- NIL                         // Inizialmente u non ha predecessore
+
+    time <- 0                               // Inizializzo il tempo della DFS
+
+    for ogni u ∈ V[G]                       // Avvio la DFS da ogni componente
+        if color[u] = WHITE
+            DFS-VISIT(G, u)
+
+    for ogni arco (u,v) ∈ E[G]              // Scorro tutti gli archi del grafo
+        if d[v] < f[v] < d[u] < f[u]        // Gli intervalli di u e v sono disgiunti
+            return TRUE                     // Ho trovato un arco trasversale
+
+    return FALSE                            // Non esistono archi trasversali
+
+
+DFS-VISIT(G, u)
+
+    time <- time + 1                        // Incremento il tempo
+    d[u] <- time                            // Memorizzo il tempo di scoperta di u
+    color[u] <- GRAY                        // u è stato scoperto
+
+    for ogni v ∈ Adj[u]                     // Scorro i vertici adiacenti a u
+        if color[v] = WHITE                 // Se v non è ancora stato visitato
+            π[v] <- u                       // u diventa il predecessore di v
+            DFS-VISIT(G, v)                 // Visito ricorsivamente v
+
+    time <- time + 1                        // Incremento il tempo
+    f[u] <- time                            // Memorizzo il tempo di fine visita di u
+    color[u] <- BLACK                       // La visita di u è terminata
+
+
+COMPLESSITA'
+
+La DFS richiede:
+
+    O(V + E)
+
+Successivamente vengono controllati tutti gli archi del grafo:
+
+    O(E)
+
+Quindi la complessità totale nel caso peggiore è:
+
+    O(V + E) + O(E) = O(V + E)
+
+Tempo: O(V + E)
