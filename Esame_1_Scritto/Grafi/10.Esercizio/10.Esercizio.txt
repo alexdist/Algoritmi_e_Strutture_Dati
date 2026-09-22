@@ -1,0 +1,58 @@
+TRACCIA
+
+Dato un grafo orientato G = (V,E), scrivere un algoritmo in pseudocodice
+che restituisca il numero dei cicli, escludendo i cappi, presenti nel grafo.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+DFS con backtracking.
+
+
+PSEUDOCODICE
+
+CONTA-CICLI(G)
+
+    count <- 0
+
+    for ogni u ∈ V[G]                         // Inizializzo i vertici
+        visited[u] <- FALSE
+
+    for ogni s ∈ V[G]                         // Provo ogni vertice come punto di partenza
+        CERCA-CICLI(G, s, s, visited)
+
+    return count                              // Restituisco il numero totale di cicli
+
+
+CERCA-CICLI(G, u, s, visited)
+
+    visited[u] <- TRUE                        // Inserisco u nel cammino corrente
+
+    for ogni v ∈ Adj[u]                       // Esamino gli adiacenti di u
+
+        if v = s AND u != v                   // Sono tornato alla partenza e non è un cappio
+            count <- count + 1                // Ho trovato un ciclo
+
+        else if visited[v] = FALSE AND v >= s // Evito vertici già nel cammino e duplicati
+            CERCA-CICLI(G, v, s, visited)     // Continuo l'esplorazione
+
+    visited[u] <- FALSE                       // Backtracking: rimuovo u dal cammino
+
+
+COMPLESSITA'
+
+L'algoritmo non esegue una semplice DFS, perché con il backtracking
+uno stesso vertice può essere visitato attraverso cammini differenti.
+
+Nel caso peggiore possono essere esplorati un numero fattoriale
+di cammini semplici.
+
+Ponendo n = |V|:
+
+    Tempo: O(n!)
+
+L'array visited e lo stack delle chiamate ricorsive possono contenere
+al massimo |V| vertici:
+
+    Spazio: O(n)
