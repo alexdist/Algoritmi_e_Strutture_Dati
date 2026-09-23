@@ -1,0 +1,63 @@
+TRACCIA
+
+Un forno può cuocere un solo piatto alla volta.
+Ogni piatto ha un diverso tempo di cottura.
+
+Scrivere un algoritmo che determini una sequenza di cottura che
+minimizzi il turnaround, cioè il tempo medio di attesa dei membri
+della famiglia, e restituisca il turnaround medio.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+SJF (Shortest Job First) mediante MIN-HEAP.
+
+I piatti vengono cotti in ordine crescente rispetto al loro tempo
+di cottura, scegliendo ogni volta il piatto con tempo minimo.
+
+
+PSEUDOCODICE
+
+SJF(T)
+
+    n <- T.length                              // Numero totale di piatti
+
+    BUILD-MIN-HEAP(T)                          // Ordino i piatti rispetto al tempo minimo
+
+    time <- 0                                  // Tempo trascorso complessivamente
+    totale <- 0                                // Somma dei turnaround
+
+    for i <- 1 to n
+
+        piatto <- HEAP-EXTRACT-MIN(T)          // Estraggo il piatto più veloce
+
+        time <- time + piatto.tempocottura     // Tempo di completamento del piatto
+        totale <- totale + time                // Accumulo il turnaround
+
+    media <- totale / n                        // Calcolo il turnaround medio
+
+    return media
+
+
+COMPLESSITA'
+
+La costruzione del MIN-HEAP richiede:
+
+    O(n)
+
+Vengono effettuate n estrazioni dal MIN-HEAP e ogni
+HEAP-EXTRACT-MIN richiede O(log n):
+
+    O(n log n)
+
+Le operazioni eseguite all'interno del ciclo, esclusa
+l'estrazione, richiedono complessivamente O(n).
+
+Quindi:
+
+    O(n) + O(n log n) + O(n) = O(n log n)
+
+Tempo: O(n log n)
+
+Spazio: O(1) ausiliario se il MIN-HEAP viene costruito
+        direttamente sull'array T.
