@@ -38,7 +38,7 @@ ARCO-MEDIANO-MST(G, w)
 
         if FIND-SET(u) != FIND-SET(v)
 
-            APPEND(A, (u,v))                  // Inserisco l'arco nell'MST
+            A<- A ∪ {(u,v)}                  // Inserisco l'arco nell'MST
             UNION(u,v)
 
             if A.length = |V[G]| - 1          // L'MST è completo
