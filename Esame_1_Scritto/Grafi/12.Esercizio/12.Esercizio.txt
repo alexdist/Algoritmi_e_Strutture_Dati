@@ -1,0 +1,74 @@
+TRACCIA
+
+Dato un grafo pesato e non orientato G = (V,E), con funzione peso
+w : E -> R, scrivere un algoritmo che riceve G e restituisce l'arco
+di peso mediano appartenente al Minimum Spanning Tree (MST) di G.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Kruskal.
+
+Gli archi vengono esaminati in ordine crescente di peso.
+Gli archi accettati nell'MST vengono memorizzati nella lista A,
+mantenendo quindi l'ordine crescente rispetto al peso.
+
+Un MST contiene esattamente |V|-1 archi.
+
+NOTA
+
+Se il numero di archi dell'MST è pari, si assume come arco di peso
+mediano quello dei due archi centrali avente peso minore
+(mediana inferiore).
+
+
+PSEUDOCODICE
+
+ARCO-MEDIANO-MST(G, w)
+
+    A <- lista vuota
+
+    for ogni v ∈ V[G]
+        MAKE-SET(v)
+
+    ordina gli archi di E[G] in ordine crescente rispetto a w
+
+    for ogni arco (u,v) ∈ E[G] in ordine crescente
+
+        if FIND-SET(u) != FIND-SET(v)
+
+            APPEND(A, (u,v))                  // Inserisco l'arco nell'MST
+            UNION(u,v)
+
+            if A.length = |V[G]| - 1          // L'MST è completo
+                break
+
+    m <- |V[G]| - 1                           // Numero di archi dell'MST
+
+    pos <- ceil(m / 2)                        // Posizione della mediana inferiore
+
+    return A[pos]                             // Restituisco l'arco mediano
+
+
+COMPLESSITA'
+
+L'ordinamento degli archi richiede:
+
+    O(E log E)
+
+Le operazioni sulle strutture disgiunte MAKE-SET, FIND-SET e UNION
+non modificano il termine dominante della complessità.
+
+Il calcolo della posizione mediana e l'accesso ad A[pos]
+richiedono tempo costante:
+
+    O(1)
+
+Pertanto la complessità totale nel caso peggiore è:
+
+    O(E log E)
+
+Tempo: O(E log E)
+
+Spazio: O(V)
