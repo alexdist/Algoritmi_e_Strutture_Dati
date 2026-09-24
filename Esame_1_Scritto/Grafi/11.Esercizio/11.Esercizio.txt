@@ -1,0 +1,70 @@
+TRACCIA
+
+Dato un grafo orientato G = (V,E), rappresentato mediante una lista
+di adiacenza, scrivere un algoritmo in pseudocodice che restituisca
+la lista di puntatori ai vertici di G di grado massimo.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Scansione delle liste di adiacenza.
+
+Il grado uscente di ogni vertice u viene calcolato contando
+il numero di elementi presenti in Adj[u].
+
+L'algoritmo esegue due passate:
+- nella prima determina il grado massimo;
+- nella seconda costruisce la lista dei puntatori ai vertici
+  che possiedono tale grado.
+
+
+PSEUDOCODICE
+
+VERTICI-GRADO-MASSIMO(G)
+
+    maxGrado <- 0                              // Massimo grado trovato
+
+    for ogni u ∈ V[G]                         // Calcolo il grado di ogni vertice
+
+        count[u] <- 0
+
+        for ogni v ∈ Adj[u]                   // Scorro gli adiacenti di u
+            count[u] <- count[u] + 1          // Incremento il grado di u
+
+        if count[u] > maxGrado                // Aggiorno il massimo
+            maxGrado <- count[u]
+
+    L <- lista vuota                          // Lista dei puntatori risultato
+
+    for ogni u ∈ V[G]                         // Seconda scansione dei vertici
+
+        if count[u] = maxGrado                // u ha grado massimo
+            INSERISCI(L, ptr(u))              // Inserisco il puntatore a u
+
+    return L
+
+
+COMPLESSITA'
+
+La prima scansione visita tutti i vertici e tutte le loro
+liste di adiacenza.
+
+La somma delle lunghezze delle liste di adiacenza di un
+grafo orientato è pari a |E|.
+
+Quindi la prima fase richiede:
+
+    O(V + E)
+
+La seconda scansione considera tutti i vertici:
+
+    O(V)
+
+Pertanto:
+
+    O(V + E) + O(V) = O(V + E)
+
+Tempo: O(V + E)
+
+Spazio ausiliario: O(V)
