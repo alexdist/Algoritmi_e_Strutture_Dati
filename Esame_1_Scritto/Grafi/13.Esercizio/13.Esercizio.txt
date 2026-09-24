@@ -1,0 +1,86 @@
+TRACCIA
+
+Dato un grafo orientato, aciclico e pesato G = (V,E), rappresentato
+tramite liste di adiacenza, con funzione peso w : E -> R+ e un vertice
+s ∈ V, scrivere un algoritmo che restituisca, per ogni vertice v,
+il peso medio degli archi appartenenti al cammino minimo da s a v.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Dijkstra con coda di priorità min.
+
+Oltre alla distanza minima d[v], manteniamo per ogni vertice v
+il numero di archi nArchi[v] appartenenti al cammino minimo da s a v.
+
+Quando il rilassamento di un arco (u,v) migliora il cammino verso v,
+aggiorniamo anche:
+
+    nArchi[v] <- nArchi[u] + 1
+
+Alla fine il peso medio è:
+
+    media[v] <- d[v] / nArchi[v]
+
+
+PSEUDOCODICE
+
+PESO-MEDIO-CAMMINI(G, w, s)
+
+    for ogni v ∈ V[G]
+        d[v] <- +∞
+        π[v] <- NIL
+        nArchi[v] <- +∞
+        media[v] <- NIL
+
+    d[s] <- 0
+    nArchi[s] <- 0
+
+    Q <- coda di priorità min contenente i vertici di V[G]
+         con priorità d[v]
+
+    while Q != vuota
+
+        u <- EXTRACT-MIN(Q)
+
+        for ogni v ∈ Adj[u]
+
+            if d[v] > d[u] + w(u,v)
+
+                d[v] <- d[u] + w(u,v)             // Aggiorno la distanza minima
+                π[v] <- u                          // Aggiorno il predecessore
+                nArchi[v] <- nArchi[u] + 1         // Numero di archi del cammino
+                DECREASE-KEY(Q, v, d[v])
+
+    for ogni v ∈ V[G]
+
+        if v != s AND d[v] != +∞
+            media[v] <- d[v] / nArchi[v]           // Peso medio del cammino minimo
+        else
+            media[v] <- NIL                        // Sorgente o vertice irraggiungibile
+
+    return media
+
+
+COMPLESSITA'
+
+Dijkstra, utilizzando liste di adiacenza e una coda di priorità min
+implementata tramite heap binario, richiede:
+
+    O((V + E) log V)
+
+Lo scorrimento finale di tutti i vertici richiede:
+
+    O(V)
+
+Quindi la complessità totale è:
+
+    O((V + E) log V)
+
+che, nelle usuali condizioni in cui E domina V, viene indicata come:
+
+    O(E log V)
+
+Spazio ausiliario:
+
+    O(V)
