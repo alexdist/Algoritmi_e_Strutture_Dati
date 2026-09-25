@@ -1,0 +1,61 @@
+TRACCIA
+
+Dato un insieme di N aerei in attesa di decollare, dove ogni aereo i
+richiede un tempo di decollo t_i, scrivere un algoritmo che utilizzi
+una coda di priorità per minimizzare la somma dei tempi di attesa
+(turnaround complessivo) di tutti gli aerei.
+
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Strategia greedy Shortest Job First (SJF), implementata mediante
+una Min-Priority Queue (MIN-HEAP).
+
+Gli aerei vengono processati in ordine crescente rispetto al loro
+tempo di decollo t_i.
+
+In questo modo gli aerei con tempo di decollo minore vengono
+processati per primi, minimizzando la somma dei tempi di attesa.
+
+
+PSEUDOCODICE
+
+MIN-TURNAROUND(A)
+
+    N <- A.length
+
+    BUILD-MIN-HEAP(A)                         // Heap ordinato rispetto a t_i
+
+    tempo <- 0                                // Tempo occupato dagli aerei precedenti
+    totale <- 0                               // Somma dei tempi di attesa
+
+    for i <- 1 to N
+
+        aereo <- HEAP-EXTRACT-MIN(A)          // Estrae l'aereo con t_i minimo
+
+        totale <- totale + tempo              // Aggiungo l'attesa dell'aereo corrente
+
+        tempo <- tempo + t_aereo              // Aggiungo il suo tempo di decollo t_i
+
+    return totale
+
+
+COMPLESSITA'
+
+BUILD-MIN-HEAP richiede:
+
+    O(N)
+
+HEAP-EXTRACT-MIN richiede O(log N) e viene eseguito N volte:
+
+    O(N log N)
+
+Pertanto:
+
+    O(N) + O(N log N) = O(N log N)
+
+La complessità totale nel caso peggiore è:
+
+    O(N log N)
