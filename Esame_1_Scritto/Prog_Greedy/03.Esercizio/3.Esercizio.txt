@@ -20,21 +20,22 @@ PSEUDOCODICE
 
 SJF(T)
 
-    n <- T.length                              // Numero totale di piatti
+    n <- T.length
 
-    BUILD-MIN-HEAP(T)                          // Ordino i piatti rispetto al tempo minimo
+    BUILD-MIN-HEAP(T)                         // Costruisco il MIN-HEAP
 
-    time <- 0                                  // Tempo trascorso complessivamente
-    tournaround <- 0                                // Somma dei turnaround
+    time <- 0                                 // Tempo occupato dai piatti precedenti
+    turnaround <- 0                           // Somma dei tempi di attesa
 
     for i <- 1 to n
 
-        piatto <- HEAP-EXTRACT-MIN(T)          // Estraggo il piatto più veloce
+        piatto <- HEAP-EXTRACT-MIN(T)         // Estraggo il piatto più veloce
 
-        time <- time + piatto.tempocottura     // Tempo di completamento del piatto
-        tournaround <- tournaround + time                // Accumulo il turnaround
+        turnaround <- turnaround + time       // Attesa del piatto corrente
 
-    media <- tournaround / n                        // Calcolo il turnaround medio
+        time <- time + piatto.tempocottura    // Aggiorno il tempo trascorso
+
+    media <- turnaround / n                   // Tempo medio di attesa
 
     return media
 
