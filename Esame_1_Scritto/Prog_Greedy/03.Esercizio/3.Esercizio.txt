@@ -25,16 +25,16 @@ SJF(T)
     BUILD-MIN-HEAP(T)                          // Ordino i piatti rispetto al tempo minimo
 
     time <- 0                                  // Tempo trascorso complessivamente
-    totale <- 0                                // Somma dei turnaround
+    tournaround <- 0                                // Somma dei turnaround
 
     for i <- 1 to n
 
         piatto <- HEAP-EXTRACT-MIN(T)          // Estraggo il piatto più veloce
 
         time <- time + piatto.tempocottura     // Tempo di completamento del piatto
-        totale <- totale + time                // Accumulo il turnaround
+        tournaround <- tournaround + time                // Accumulo il turnaround
 
-    media <- totale / n                        // Calcolo il turnaround medio
+    media <- tournaround / n                        // Calcolo il turnaround medio
 
     return media
 
