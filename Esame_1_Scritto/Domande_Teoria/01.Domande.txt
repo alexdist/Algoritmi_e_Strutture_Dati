@@ -1,0 +1,168 @@
+DOMANDE TEORICHE ESAME SCRITTO CAMASTRA
+
+
+================================================================================
+DOMANDA 1
+================================================================================
+
+-Descrivere la Macchina di Turing ed i suoi stati accettanti.
+
+La macchina di Turing è un modello a stati finiti utilizzato per leggere o
+scrivere dati di input. Questa però è una macchina ideale e non fisica ed
+è composta da testina di lettura e scrittura, nastro infinito e meccanismo
+di controllo. Inoltre, è composta da una tupla M:{Q,𝜮, 𝜞, 𝜹, 𝒒_0, B, F}:
+      Q = insime finito degli stati di controllo;
+      𝜮 = insieme finito dei simboli di input;
+      𝜞 = insieme completo dei simboli del nastro;
+      𝜹 = stato di transizione;
+      q_0 = stato iniziale del controllo;
+      B = BLANK;
+      F = insieme degli stati finali o accettanti;
+
+Gli stati accettanti sono stati che dopo aver eseguito la computazione su un input raggiunge uno stato che indica che l'input è accettato.
+
+
+================================================================================
+DOMANDA 2
+================================================================================
+
+-Fornire la definizione formale di Automa a Stati Deterministico (DFA). Dato l'alfabeto {0,1,2}, scrivere il linguaggio accettato dal DFA
+in modo tale che il DFA accetti interi che siano multipli di 5. (Si scrivano le prime 8 stringhe del linguaggio accettato.)
+
+Un Automa a stati finiti deterministico (DFA) è un automa che, dopo aver letto una qualunque sequenza di input, si trova in un unico stato.
+Consiste dei seguenti componenti:
+- Un insieme finito Q di stati;
+- Un insieme finito 𝜮 di simboli input;
+- Una funzione di stato 𝜹 : Q × 𝜮 → Q (delta, tale che accetta un qualsiasi stato di Q in combinazione con qualsiasi simbolo di input di 𝜮, e che mi restituisce uno stato sempre appartenente a Q). Ovvero, prende come input uno stato ed un simbolo di input e restituisce uno stato;
+- Uno stato iniziale q0 ⊆ Q ;
+- Un insieme di stati finali, accettanti, F ⊆ Q .
+
+Se chiede l'esempio dell'interruttore:
+ESEMPIO: definizione dell’interruttore in termini di “automa a Stati finiti deterministici”:
+- Q = { on, off }
+- 𝜮 = { push }
+- 𝜹 = { on, off } × { push } → { on, off } l’ordine di Q finale non è importante
+- q0 = { on, off }
+- F = { on, off }
+
+
+================================================================================
+DOMANDA 3
+================================================================================
+
+-Stessa traccia delle precedente ma chiedendo la definizione formale di Automa a Stati Finiti Non Deterministico (NFA)
+
+Un Automa a stati finiti non deterministico (NFA) è un automa che, dopo aver letto una qualunque sequenza di input, può trovarsi in più stati contemporaneamente (al contrario del DFA).
+consiste dei seguenti componenti:
+- Un insieme finito Q di stati;
+- Un insieme finito 𝜮 di simboli input;
+- Una funzione di stato 𝜹 : Q × 𝜮 → P (delta, tale che accetta un qualsiasi stato di Q in combinazione con qualsiasi simbolo di input di 𝜮, e che mi restituisce un sottoinsieme di stati sempre appartenente a Q). Ovvero, prende come input uno stato ed un simbolo di input e restituisce un sottoinsieme di stati;
+- Uno stato iniziale q0 ⊆ Q ;
+
+
+================================================================================
+DOMANDA 4
+================================================================================
+
+-Definire la nozione di problema decidibile (e anche indecidibile).
+
+Se un problema ha un algoritmo che dice sempre in maniera corretta se un’istanza del problema riceve la risposta “si” oppure “no”, 
+allora il problema è decidibile. Altrimenti è detto indecidibile.
+Quindi, un problema indecidibile è un problema che non può essere risolto attraverso un calcolatore, e non va confuso con i problemi intrattabili.
+(Pagina 181 PDF Fiorentino)
+
+
+================================================================================
+DOMANDA 5
+================================================================================
+
+-Esempio di problema indecidibile. Enunciare la tesi di Church.
+
+La tesi di Church, che è indimostrabile, assume che qualunque modo generale di computare permette di computare solo quella che la Macchina di Turing 
+è in grado di calcolare.
+
+Un esempio di problema indecidibile è il seguente : non esiste alcun problema che prendendo in input un programma P e un input I, 
+ci dica se P è in grado di stampare la stringa "Ciao Mondo" come primo output.
+(Pagina 183 PDF Fiorentino)
+
+
+================================================================================
+DOMANDA 6
+================================================================================
+
+-Definizione di alfabeto e linguaggio.
+
+Un alfabeto è un insieme non vuoto di simboli, e viene indicato solitamente con il simbolo 𝜮.
+Un linguaggio è un insieme di stringhe scelte da 𝜮*, dove 𝜮 è un alfabeto. Se 𝜮 è un alfabeto e 𝑳 ⊆ 𝜮*, allora 𝑳 è un linguaggio su 𝜮.
+(Pagine 171 e 173 PDF Fiorentino)
+
+
+================================================================================
+DOMANDA 7
+================================================================================
+
+-Definire classe P e NP e dire perchè P è contenuto in NP.
+
+I problemi P sono quei problemi la cui soluzione può essere calcolata in un tempo polinomiale, cioè O(nk) (es. algoritmi di ordinamento e di moltiplicazione delle matrici). 
+In pratica la classe P si riferisce a tutti quei problemi che possono essere risolti in una ragionevole quantità di tempo.
+Invece, i problemi NP sono quei problemi la cui soluzione può essere verificata in un tempo polinomiale, ma potrebbero aver bisogno di un tempo esponenziale 
+per essere risolti (es. commesso viaggiatore e SAT).
+La classe P ci dice che la soluzione di tutti i problemi appartenenti a questa classe può essere trovata in un tempo polinomiale, mentre la classe NP ci dice che, 
+fornita una possibile soluzione,  è possibile verificarla in un tempo polinomiale. Da queste due definizioni, è immediato ed intuitivo capire che P ⊆ NP.
+
+
+================================================================================
+DOMANDA 8
+================================================================================
+
+-Dimostrare che se un problema appartiene alla classe P, appartiene anche alla classe NP.
+
+Se un linguaggio 𝑳∈𝑷→𝑳∈𝑵𝑷 .(Il viceversa non si è in grado di dimostrarlo, né se sia vero, né se sia falso.).
+Se esiste un algoritmo 𝑨 che in tempo polinomiale decide il linguaggio 𝑳 allora è immediato trasformare lo stesso algoritmo in un algoritmo di verifica A' 
+a due argomenti che ignora qualsiasi certificato (ossia il secondo argomento) ed accetta quelle stringhe che 𝑨 determina appartenere ad 𝑳. 
+(Se A accetta L in tempo polinomiale anche A' verifica L in tempo polinomiale).
+Quindi 𝑷⊆𝑵𝑷.(Ogni problema/algoritmo risolvibile in tempo polinomiale è anche verificabile in tempo polinomiale). Segue la dimostrazione formale:
+
+L = {x appartenente a {0,1}* : A(x) = 1}
+
+L = {x appartenente a {0,1}* : esiste y : |y| = O(|x|^c) : A(x,y) = 1}
+
+(Pagina 139 PDF Luca e Stella)
+
+
+================================================================================
+DOMANDA 9
+================================================================================
+
+-Fornire la definizione di problema NP completo in termini di linguaggi e dimostrare che se esiste un problema NP completo che non appartiene alla classe P,
+allora tutti i problemi NP completi non appartengono alla classe P.
+
+I problemi NP-completi sono quei problemi che sappiamo risolvere solo con algoritmi di complessità esponenziale, e sono i più “difficili” problemi nella classe NP.
+
+Se un qualsiasi problema NP-completo è risolvibile in tempo polinomiale allora P=NP (la classe P equivale alla classe NP). 
+Viceversa se un qualsiasi problema in NP-completo non è risolvibile in tempo polinomiale allora tutti i problemi NP-completi non possono essere risolti in tempo polinomiale.
+Dimostrazione:
+Lemma: Se L1, L2 ⊆ {𝟎, 𝟏}* sono linguaggi tali che L1 è riducibile in tempo polinomiale ad L2 (L1 riducibile polinomialmente a  L2) allora  se L2 ∈𝑷 ⟹ L1∈𝑷.
+Un linguaggio è NP-completo se:
+1. (L appartiene ad NP);
+2. (Per ogni L’ appartenente ad NP, L’ è riducibile polinomialmente ad L).
+Se L appartiene a P ed anche L appartiene a NPC, allora per ogni L' appartenente a NP, si ha che L' è riducibile in tempo polinomiale ad L per la definizione di NPC. 
+Per il lemma precedente, allora se L appartiene a P, allora L' appartiene a P. 
+Al contrario supponiamo che esista un L appartenente a NP tale che sia L diverso da P. 
+Supponiamo per assurdo che esista un L' appartenente a NP tale che sia L' appartenente a P. 
+Allora per la definizione L riducibile in tempo polinomiale ad L' e per il lemma precedente deve essere L appartenente a P, che contraddice l’ ipotesi iniziale.
+
+(Pagine 143-144 PDF Luca e Stella)
+
+
+================================================================================
+DOMANDA 10
+================================================================================
+
+-Definire, in modo formale, la nozione di riducibilità polinomiale tra due problemi P1 e P2.
+
+Si dice che un linguaggio 𝑳1 è riducibile in tempo polinomiale ad un linguaggio 𝑳𝟐 ( 𝑳𝟏 ≤𝑷 𝑳𝟐 ) se esiste una funzione calcolabile in tempo polinomiale 
+𝒇:{𝟎,𝟏}∗ → {𝟎, 𝟏}* tale che per ogni 𝒙 ∈ 𝑳𝟏, se e solo se 𝒇(𝒙) ∈ 𝑳𝟐 .
+La funzione 𝒇 si dice funzione di riduzione e l’algoritmo F di tempo polinomiale che calcola 𝒇(x) è detto algoritmo di riduzione.
+
+(Pagina 197 PDF Fiorentino)
