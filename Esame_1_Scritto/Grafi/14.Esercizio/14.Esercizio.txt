@@ -1,0 +1,114 @@
+TRACCIA
+
+Dato un grafo orientato G = (V,E), rappresentato mediante una lista
+di adiacenza, scrivere un algoritmo in pseudocodice che restituisca
+la lista di puntatori ai vertici di G di grado entrante massimo.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Scansione delle liste di adiacenza.
+
+Il grado entrante di ogni vertice v viene calcolato contando
+il numero di archi che terminano in v.
+
+Poiché nella lista Adj[u] sono presenti tutti i vertici v
+tali che esiste un arco u -> v, ogni volta che troviamo v
+nella lista Adj[u] incrementiamo count[v].
+
+L'algoritmo esegue tre fasi:
+- inizializza a 0 il grado entrante di tutti i vertici;
+- scorre tutte le liste di adiacenza e calcola i gradi entranti;
+- determina il grado massimo e costruisce la lista dei puntatori
+  ai vertici che possiedono tale grado.
+
+
+PSEUDOCODICE
+
+VERTICI-GRADO-ENTRANTE-MASSIMO(G)
+
+    for ogni u ∈ V[G]                         // Inizializzo i gradi entranti
+        count[u] <- 0
+
+    for ogni u ∈ V[G]                         // Scorro tutti i vertici
+
+        for ogni v ∈ Adj[u]                   // Esiste l'arco u -> v
+            count[v] <- count[v] + 1          // Incremento il grado entrante di v
+
+    maxGrado <- 0                             // Massimo grado entrante trovato
+
+    for ogni u ∈ V[G]                         // Cerco il grado massimo
+
+        if count[u] > maxGrado
+            maxGrado <- count[u]
+
+    L <- lista vuota                          // Lista dei puntatori risultato
+
+    for ogni u ∈ V[G]                         // Scorro nuovamente i vertici
+
+        if count[u] = maxGrado                // u ha grado entrante massimo
+            INSERISCI(L, ptr(u))              // Inserisco il puntatore a u
+
+    return L
+
+
+COMPLESSITA'
+
+L'inizializzazione dell'array count considera tutti i vertici:
+
+    O(V)
+
+La scansione delle liste di adiacenza visita tutti i vertici
+e tutti gli archi.
+
+La somma delle lunghezze delle liste di adiacenza di un
+grafo orientato è pari a |E|.
+
+Quindi questa fase richiede:
+
+    O(V + E)
+
+La scansione per determinare il grado entrante massimo
+considera tutti i vertici:
+
+    O(V)
+
+La scansione per costruire la lista risultato considera
+nuovamente tutti i vertici:
+
+    O(V)
+
+Pertanto:
+
+    O(V) + O(V + E) + O(V) + O(V) = O(V + E)
+
+Tempo: O(V + E)
+
+Spazio ausiliario: O(V)
+
+
+NOTA
+
+La differenza fondamentale tra grado uscente e grado entrante è:
+
+Grado uscente:
+
+    for ogni v ∈ Adj[u]
+        count[u] <- count[u] + 1
+
+Grado entrante:
+
+    for ogni v ∈ Adj[u]
+        count[v] <- count[v] + 1
+
+Infatti, se v appartiene ad Adj[u], significa che esiste
+l'arco:
+
+    u -> v
+
+L'arco esce da u ed entra in v.
+
+Quindi:
+- incrementare count[u] significa calcolare il grado uscente;
+- incrementare count[v] significa calcolare il grado entrante.
