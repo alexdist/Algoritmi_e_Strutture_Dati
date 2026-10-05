@@ -13,30 +13,52 @@ ACTIVITY-SELECTION-MIN-PRIORITY(S, F, n)
 
     A <- insieme vuoto                         // Insieme delle attività selezionate
 
-    Q <- coda di min-priorità vuota            // Creo la coda che conterrà tutte le attività
+    Q <- coda di min-priorità vuota            // Creo la coda di min-priorità
 
     for ogni attività i                        // Scorro tutte le n attività
-        MIN-HEAP-INSERT(Q, i, f[i])             // Inserisco i usando il tempo di fine come priorità
+        MIN-HEAP-INSERT(Q, i)                  // Inserisco l'attività i con priorità f[i]
+
+    k <- EXTRACT-MIN(Q)                        // Estraggo l'attività con tempo di fine minimo
+
+    A <- A ∪ {k}                               // Seleziono la prima attività
+
+    while Q != insieme vuoto                   // Continuo finché la coda non è vuota
+
+        m <- EXTRACT-MIN(Q)                    // Estraggo l'attività con tempo di fine minimo
+
+        if s[m] >= f[k]                        // Controllo se m è compatibile con l'ultima scelta
+
+            A <- A ∪ {m}                       // Aggiungo m alle attività selezionate
+
+            k <- m                             // Aggiorno l'ultima attività selezionata
+
+    return A                                   // Restituisco le attività compatibili selezionate
 
 
-    k <- EXTRACT-MIN(Q)                         // Estraggo l'attività con tempo di fine minimo
 
-    A <- A ∪ {k}                                // La prima attività estratta viene sempre selezionata
+MIN-HEAP-INSERT(Q, key)
 
+    Q.heapsize <- Q.heapsize + 1               // Creo spazio per il nuovo elemento
 
-    while Q != insieme vuoto                    // Continuo finché ci sono attività da esaminare
+    Q[Q.heapsize] <- +∞                        // Inserisco temporaneamente +∞
 
-        m <- EXTRACT-MIN(Q)                     // Estraggo l'attività con tempo di fine minimo
-
-        if s[m] >= f[k]                         // Se m inizia dopo (o quando) termina l'ultima scelta
-
-            A <- A ∪ {m}                        // Aggiungo m all'insieme delle attività selezionate
-
-            k <- m                              // m diventa l'ultima attività selezionata
+    HEAP-DECREASE-KEY(Q, Q.heapsize, key)      // Inserisco la nuova chiave nella posizione corretta
 
 
-    return A                                    // Restituisco il massimo insieme di attività compatibili
 
+HEAP-DECREASE-KEY(Q, i, key)
+
+    if key > Q[i]                              // Controllo che la nuova chiave non sia maggiore
+
+        error "invalid data"                   // Segnalo un aggiornamento non valido
+
+    Q[i] <- key                                // Assegno la nuova priorità
+
+    while i > 1 AND Q[PARENT(i)] > Q[i]        // Risalgo finché il padre ha priorità maggiore
+
+        scambia Q[PARENT(i)] con Q[i]          // Scambio figlio e padre
+
+        i <- PARENT(i)                         // Aggiorno la posizione nell'heap
 
 
 COMPLESSITA'
