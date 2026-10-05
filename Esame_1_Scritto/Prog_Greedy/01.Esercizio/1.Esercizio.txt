@@ -9,13 +9,15 @@ ALGORITMO DI BASE UTILIZZATO: ACTIVITY SELECTION GREEDY CON CODA DI MIN-PRIORIT�
 
 PSEUDOCODICE
 
-ACTIVITY-SELECTION-MIN-PRIORITY(S, F, n)
+ACTIVITY-SELECTION-MIN-PRIORITY(S, F)
+
+    n <- S.length                              // Numero totale di attività
 
     A <- insieme vuoto                         // Insieme delle attività selezionate
 
     Q <- coda di min-priorità vuota            // Creo la coda di min-priorità
 
-    for ogni attività i                        // Scorro tutte le n attività
+    for i <- 1 to n                            // Scorro tutte le attività
         MIN-HEAP-INSERT(Q, i)                  // Inserisco l'attività i con priorità f[i]
 
     k <- EXTRACT-MIN(Q)                        // Estraggo l'attività con tempo di fine minimo
@@ -26,13 +28,13 @@ ACTIVITY-SELECTION-MIN-PRIORITY(S, F, n)
 
         m <- EXTRACT-MIN(Q)                    // Estraggo l'attività con tempo di fine minimo
 
-        if s[m] >= f[k]                        // Controllo se m è compatibile con l'ultima scelta
+        if s[m] >= f[k]                        // Verifico la compatibilità con l'ultima attività scelta
 
-            A <- A ∪ {m}                       // Aggiungo m alle attività selezionate
+            A <- A ∪ {m}                       // Seleziono l'attività m
 
-            k <- m                             // Aggiorno l'ultima attività selezionata
+            k <- m                             // m diventa l'ultima attività selezionata
 
-    return A                                   // Restituisco le attività compatibili selezionate
+    return A                                   // Restituisco le attività selezionate
 
 
 
