@@ -23,47 +23,53 @@ PSEUDOCODICE
 
 VERTICI-GRADO-MASSIMO(G)
 
-    maxGrado <- 0                              // Massimo grado trovato
+    for ogni v ∈ V[G]                         // Inizializzo il grado di ogni vertice
+        count[v] <- 0                         // Inizialmente ogni grado vale 0
 
-    for ogni u ∈ V[G]                         // Calcolo il grado di ogni vertice
+    for ogni u ∈ V[G]                         // Scorro tutti i vertici del grafo
+        for ogni v ∈ Adj[u]                   // Scorro tutti gli adiacenti di u
+            count[u] <- count[u] + 1          // Incremento il grado uscente di u
 
-        count[u] <- 0
+    maxGrado <- 0                             // Inizializzo il grado massimo
 
-        for ogni v ∈ Adj[u]                   // Scorro gli adiacenti di u
-            count[u] <- count[u] + 1          // Incremento il grado di u
+    for ogni v ∈ V[G]                         // Scorro tutti i vertici
+        if count[v] > maxGrado                // Controllo se trovo un grado maggiore
+            maxGrado <- count[v]              // Aggiorno il grado massimo
 
-        if count[u] > maxGrado                // Aggiorno il massimo
-            maxGrado <- count[u]
+    L <- lista vuota                          // Creo la lista risultato
 
-    L <- lista vuota                          // Lista dei puntatori risultato
+    for ogni v ∈ V[G]                         // Scorro nuovamente tutti i vertici
+        if count[v] = maxGrado                // Controllo se v ha grado massimo
+            INSERISCI(L, ptr(v))              // Inserisco nella lista il puntatore a v
 
-    for ogni u ∈ V[G]                         // Seconda scansione dei vertici
-
-        if count[u] = maxGrado                // u ha grado massimo
-            INSERISCI(L, ptr(u))              // Inserisco il puntatore a u
-
-    return L
+    return L                                  // Restituisco la lista dei puntatori
 
 
 COMPLESSITA'
 
-La prima scansione visita tutti i vertici e tutte le loro
-liste di adiacenza.
-
-La somma delle lunghezze delle liste di adiacenza di un
-grafo orientato è pari a |E|.
-
-Quindi la prima fase richiede:
-
-    O(V + E)
-
-La seconda scansione considera tutti i vertici:
+Inizializzazione di count:
 
     O(V)
 
-Pertanto:
+Scansione delle liste di adiacenza:
 
-    O(V + E) + O(V) = O(V + E)
+    O(V + E)
+
+Ricerca del grado massimo:
+
+    O(V)
+
+Costruzione della lista risultato:
+
+    O(V)
+
+Quindi:
+
+    O(V) + O(V + E) + O(V) + O(V)
+
+COMPLESSITA' TOTALE:
+
+    O(V + E)
 
 Tempo: O(V + E)
 
