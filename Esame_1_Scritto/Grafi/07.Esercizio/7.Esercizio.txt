@@ -10,30 +10,53 @@ PSEUDOCODICE
 
 KRUSKAL-MIN-PRIORITY-QUEUE(G, w)
 
-    A <- insieme vuoto                         // Insieme degli archi che formeranno l'MST
+    A <- insieme vuoto                          // Insieme degli archi che formeranno l'MST
 
-    for ogni v ∈ V[G]                         // Inizializzo gli insiemi disgiunti
-        MAKE-SET(v)                            // Ogni vertice appartiene inizialmente a un insieme separato
+    for ogni v ∈ V[G]                          // Scorro tutti i vertici del grafo
+        MAKE-SET(v)                             // Ogni vertice appartiene inizialmente a un insieme separato
 
+    Q <- coda di min-priorità vuota             // Creo la coda che conterrà gli archi del grafo
 
-    Q <- coda di min-priorità vuota            // Creo la coda che conterrà gli archi del grafo
+    for ogni arco (u,v) ∈ E[G]                  // Scorro tutti gli archi del grafo
+        MIN-HEAP-INSERT(Q, ((u,v), w(u,v)))     // Inserisco l'arco con chiave pari al suo peso
 
-    for ogni arco (u,v) ∈ E[G]                 // Scorro tutti gli archi del grafo
-        MIN-HEAP-INSERT(Q, (u,v), w(u,v))       // Inserisco l'arco usando il suo peso come priorità
+    while Q != insieme vuoto AND |A| < |V|-1    // Continuo finché la coda non è vuota e l'MST non è completo
 
+        (u,v) <- EXTRACT-MIN(Q)                 // Estraggo l'arco con peso minimo
 
-    while Q != insieme vuoto AND |A| < |V|-1   // Continuo finché ci sono archi e l'MST non è completo
-
-        (u,v) <- EXTRACT-MIN(Q)                 // Estraggo l'arco di peso minimo dalla coda
-
-        if FIND-SET(u) != FIND-SET(v)           // Se u e v appartengono a componenti diverse
+        if FIND-SET(u) != FIND-SET(v)            // Controllo se u e v appartengono a componenti diverse
 
             A <- A ∪ {(u,v)}                    // Aggiungo l'arco all'MST
 
-            UNION(u,v)                          // Unisco le due componenti
+            UNION(u,v)                           // Unisco le due componenti
+
+    return A                                     // Restituisco gli archi dell'MST
 
 
-    return A                                    // Restituisco gli archi dell'MST
+
+MIN-HEAP-INSERT(Q, key)
+
+    Q.heapsize <- Q.heapsize + 1                // Aumento la dimensione dell'heap
+
+    Q[Q.heapsize] <- +∞                         // Inserisco temporaneamente +∞ nell'ultima posizione
+
+    HEAP-DECREASE-KEY(Q, Q.heapsize, key)       // Assegno la nuova chiave e ripristino il min-heap
+
+
+
+HEAP-DECREASE-KEY(Q, i, key)
+
+    if key > Q[i]                               // Controllo che la nuova chiave non sia maggiore
+        error "invalid data"                    // Segnalo un aggiornamento non valido
+
+    Q[i] <- key                                 // Assegno la nuova chiave
+
+    while i > 1 AND Q[PARENT(i)] > Q[i]         // Continuo finché il padre ha chiave maggiore
+
+        scambia Q[i] con Q[PARENT(i)]           // Scambio il nodo con il padre
+
+        i <- PARENT(i)                          // Continuo dalla nuova posizione del nodo
+
 
 
 
