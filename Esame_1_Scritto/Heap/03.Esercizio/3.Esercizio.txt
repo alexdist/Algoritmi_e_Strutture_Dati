@@ -1,0 +1,109 @@
+TRACCIA
+
+Dato un array A di n elementi, con n multiplo di 4, progettare un algoritmo
+che restituisca, senza ordinare l'array, il primo quartile, cioè il valore
+per cui un quarto degli elementi di A è inferiore e tre quarti sono superiori.
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMI DI BASE UTILIZZATI
+
+BUILD-MIN-HEAP
+MIN-HEAPIFY
+HEAP-EXTRACT-MIN
+
+
+PSEUDOCODICE
+
+PRIMO-QUARTILE(A)
+
+    n <- A.length                              // Numero di elementi dell'array
+
+    BUILD-MIN-HEAP(A)                          // Trasformo A in un min-heap
+
+    for i <- 1 to (n/4) + 1                    // Arrivo all'elemento con n/4 elementi inferiori
+
+        q <- HEAP-EXTRACT-MIN(A)               // Estraggo ogni volta l'elemento minimo
+
+    return q                                   // Restituisco il primo quartile
+
+
+
+BUILD-MIN-HEAP(A)
+
+    A.heapsize <- A.length                     // Imposto la dimensione dell'heap
+
+    for i <- floor(A.length/2) downto 1        // Parto dall'ultimo nodo non foglia
+
+        MIN-HEAPIFY(A, i)                      // Ripristino la proprietà di min-heap
+
+
+
+MIN-HEAPIFY(A, i)
+
+    l <- LEFT(i)                               // Indice del figlio sinistro
+
+    r <- RIGHT(i)                              // Indice del figlio destro
+
+    smallest <- i                              // Suppongo che i contenga il valore minimo
+
+    if l <= A.heapsize AND A[l] < A[smallest]  // Confronto con il figlio sinistro
+
+        smallest <- l                          // Il figlio sinistro diventa il più piccolo
+
+    if r <= A.heapsize AND A[r] < A[smallest]  // Confronto con il figlio destro
+
+        smallest <- r                          // Il figlio destro diventa il più piccolo
+
+    if smallest != i                           // Se il minimo non si trova nella posizione i
+
+        scambia A[i] con A[smallest]           // Scambio il nodo con il figlio più piccolo
+
+        MIN-HEAPIFY(A, smallest)                // Continuo ricorsivamente nel sottoalbero
+
+
+
+HEAP-EXTRACT-MIN(A)
+
+    if A.heapsize < 1                          // Controllo che l'heap non sia vuoto
+
+        error "heap underflow"                  // Non ci sono elementi da estrarre
+
+    min <- A[1]                                // La radice contiene l'elemento minimo
+
+    A[1] <- A[A.heapsize]                      // Porto l'ultimo elemento nella radice
+
+    A.heapsize <- A.heapsize - 1               // Diminuisco la dimensione dell'heap
+
+    MIN-HEAPIFY(A, 1)                          // Ripristino la proprietà di min-heap
+
+    return min                                 // Restituisco l'elemento minimo
+
+
+
+COMPLESSITA'
+
+BUILD-MIN-HEAP richiede:
+
+    O(n)
+
+MIN-HEAPIFY richiede:
+
+    O(log n)
+
+HEAP-EXTRACT-MIN richiede:
+
+    O(log n)
+
+HEAP-EXTRACT-MIN viene eseguito (n/4) + 1 volte:
+
+    O((n/4 + 1) log n) = O(n log n)
+
+Quindi la complessità totale è:
+
+    O(n) + O(n log n) = O(n log n)
+
+
+COMPLESSITA' TOTALE:
+
+    O(n log n)
