@@ -1,0 +1,148 @@
+TRACCIA
+
+Scrivere un programma che utilizzi la memoization per calcolare
+il coefficiente c definito dalla seguente ricorrenza:
+
+c[i][j] = max(c[i-1][j], c[i][j-1]) + 1
+
+con i casi base:
+
+c[i][0] = c[0][j] = 0, per ogni i, j.
+
+
+ALGORITMO DI BASE UTILIZZATO: LCS (LONGEST COMMON SUBSEQUENCE) CON MEMOIZATION
+
+Utilizziamo la struttura dell'algoritmo LCS con memoization,
+adattandola alla ricorrenza della traccia.
+
+Non servono gli array X e Y né il confronto tra i loro elementi:
+il valore dipende soltanto dagli indici i e j.
+
+La tabella c memorizza i risultati già calcolati per evitare
+di risolvere più volte gli stessi sottoproblemi.
+
+
+
+CALCOLA-C(n, m)
+
+    crea matrice c[0..n, 0..m]                // Creo una tabella di (n+1) righe e (m+1) colonne
+
+    for i <- 0 to n                          // Scorro tutte le righe, compresa la riga 0
+        for j <- 0 to m                      // Scorro tutte le colonne, compresa la colonna 0
+            c[i,j] <- -∞                     // Inizializzo ogni cella come non ancora calcolata
+
+    return C-MEMO(n, m, c)                   // Avvio la ricorsione e restituisco il coefficiente richiesto
+    
+
+C-MEMO(i, j, c)
+
+    if i = 0 OR j = 0                         // Caso base: se un indice è 0, il risultato è 0
+        return 0                              // Restituisco 0 senza effettuare altre chiamate
+
+    if c[i,j] != -∞                           // Controllo se il sottoproblema è già stato calcolato
+        return c[i,j]                         // Se sì, restituisco il valore memorizzato
+
+    c[i,j] <- max(C-MEMO(i-1,j,c),             // Calcolo ricorsivamente il sottoproblema precedente sulla riga
+                  C-MEMO(i,j-1,c)) + 1        // Lo confronto con quello precedente sulla colonna e aggiungo 1
+
+    return c[i,j]                             // Restituisco il risultato memorizzato nella tabella
+
+
+
+
+COMPLESSITA'
+
+La tabella contiene:
+
+(n+1) × (m+1)
+
+celle.
+
+L'inizializzazione della tabella tramite il doppio for costa:
+
+O(n × m)
+
+
+Ogni sottoproblema è identificato da una coppia di indici (i,j).
+
+Grazie alla memoization, ogni sottoproblema viene calcolato
+al massimo una volta.
+
+Se il valore è già presente nella tabella, viene restituito
+in tempo costante:
+
+O(1)
+
+
+Per ogni nuovo sottoproblema eseguiamo:
+
+- Due chiamate ricorsive
+- Un confronto tramite max
+- Un'addizione di 1
+- Un assegnamento nella tabella
+
+Escludendo il lavoro svolto dalle chiamate ricorsive,
+le operazioni richiedono tempo costante:
+
+O(1)
+
+
+Il numero massimo di sottoproblemi distinti è:
+
+n × m
+
+Quindi il costo complessivo della parte ricorsiva è:
+
+O(n × m)
+
+
+Sommando il costo dell'inizializzazione e quello
+della ricorsione otteniamo:
+
+O(n × m) + O(n × m)
+
+
+La complessità temporale totale è:
+
+O(n × m)
+
+
+COMPLESSITA' SPAZIALE
+
+La tabella di memoization occupa:
+
+O(n × m)
+
+
+Le chiamate ricorsive occupano spazio nello stack.
+
+A ogni chiamata almeno uno dei due indici diminuisce di 1,
+quindi la profondità massima della ricorsione è:
+
+O(n + m)
+
+
+La complessità spaziale complessiva è:
+
+O(n × m + n + m)
+
+
+Per n, m >= 1, si semplifica in:
+
+O(n × m)
+
+
+NOTA
+
+Il valore -∞ viene utilizzato come sentinella per distinguere
+una cella non ancora calcolata da una cella già calcolata.
+
+I casi base vengono gestiti direttamente dalla funzione
+ricorsiva, quindi non è necessario memorizzarli nella tabella.
+
+La ricorrenza è simile a quella dell'LCS, ma non richiede
+il confronto tra gli elementi di due sequenze.
+
+Per questo motivo possiamo riutilizzare lo scheletro
+dell'LCS con memoization eliminando gli array X e Y
+e adattando la formula alla traccia.
