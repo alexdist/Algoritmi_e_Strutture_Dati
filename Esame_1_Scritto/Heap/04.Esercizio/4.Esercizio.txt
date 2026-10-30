@@ -1,0 +1,130 @@
+TRACCIA
+
+Si scriva un algoritmo A, in pseudocodice, che dato un array A
+ed un intero k, restituisca i primi k elementi più grandi
+dell'array A, senza utilizzare alcun algoritmo di ordinamento.
+
+Si calcoli la complessità computazionale di A.
+
+
+ALGORITMO DI BASE UTILIZZATO: CODA DI MASSIMA PRIORITÀ IMPLEMENTATA TRAMITE MAX-HEAP
+
+Utilizziamo un Max-Heap per individuare ed estrarre i k elementi
+più grandi dell'array senza utilizzare algoritmi di ordinamento.
+
+In un Max-Heap, l'elemento massimo si trova sempre nella radice.
+
+Costruiamo il Max-Heap tramite BUILD-MAX-HEAP(A) ed eseguiamo
+k estrazioni tramite HEAP-EXTRACT-MAX(A), memorizzando
+gli elementi estratti in un nuovo array R.
+
+
+A(A, k)
+
+    n <- A.length                              // Numero totale di elementi dell'array
+
+    if k > n OR k <= 0                         // Controllo che k sia compreso tra 1 e n
+        return "errore"                        // Segnalo un valore di k non valido
+
+    R <- nuovo array di dimensione k           // Creo l'array che conterrà i k elementi più grandi
+
+    BUILD-MAX-HEAP(A)                          // Trasformo l'array A in un Max-Heap
+
+    for i <- 1 to k                            // Eseguo esattamente k estrazioni
+        R[i] <- HEAP-EXTRACT-MAX(A)             // Estraggo il massimo e lo memorizzo in R
+
+    return R                                   // Restituisco i k elementi più grandi
+
+
+MAX-HEAPIFY(A, i)
+
+    l <- LEFT(i)                               // Trovo l'indice del figlio sinistro
+
+    r <- RIGHT(i)                              // Trovo l'indice del figlio destro
+
+    max <- i                                   // Considero inizialmente il nodo corrente come massimo
+
+    if l <= A.heapsize AND A[l] > A[max]       // Controllo se il figlio sinistro esiste ed è maggiore
+        max <- l                               // Aggiorno l'indice del massimo
+
+    if r <= A.heapsize AND A[r] > A[max]       // Controllo se il figlio destro esiste ed è maggiore
+        max <- r                               // Aggiorno l'indice del massimo
+
+    if max != i                                // Verifico se la proprietà del Max-Heap è violata
+
+        scambia A[i] con A[max]                // Porto il valore maggiore nella posizione del padre
+
+        MAX-HEAPIFY(A, max)                    // Ripristino ricorsivamente la proprietà del Max-Heap
+
+
+BUILD-MAX-HEAP(A)
+
+    A.heapsize <- A.length                     // Considero inizialmente tutti gli elementi nell'heap
+
+    for i <- floor(A.length / 2) downto 1      // Scorro i nodi interni dal basso verso l'alto
+
+        MAX-HEAPIFY(A, i)                      // Ripristino la proprietà del Max-Heap nel sottoalbero
+
+
+HEAP-EXTRACT-MAX(A)
+
+    if A.heapsize < 1                          // Controllo se l'heap è vuoto
+
+        error "underflow dell'heap"            // Segnalo che non è possibile estrarre elementi
+
+    max <- A[1]                               // Salvo il massimo presente nella radice
+
+    A[1] <- A[A.heapsize]                      // Sposto l'ultimo elemento nella radice
+
+    A.heapsize <- A.heapsize - 1               // Riduco la dimensione dell'heap
+
+    MAX-HEAPIFY(A, 1)                          // Ripristino la proprietà del Max-Heap
+
+    return max                                 // Restituisco il massimo estratto
+
+
+COMPLESSITA'
+
+Sia n il numero di elementi dell'array A.
+
+Il controllo sulla validità di k costa:
+
+O(1)
+
+La creazione dell'array R di dimensione k costa:
+
+O(k)
+
+BUILD-MAX-HEAP(A) costa:
+
+O(n)
+
+Una singola HEAP-EXTRACT-MAX(A) costa:
+
+O(log n)
+
+Poiché eseguiamo k estrazioni, il ciclo for costa:
+
+O(k log n)
+
+
+Quindi:
+
+O(1) + O(k) + O(n) + O(k log n)
+
+La complessità temporale totale è:
+
+O(n + k log n)
+
+
+COMPLESSITA' SPAZIALE
+
+L'array R occupa O(k).
+
+MAX-HEAPIFY ricorsivo utilizza O(log n) spazio nello stack.
+
+BUILD-MAX-HEAP opera direttamente sull'array originale A.
+
+Quindi la complessità spaziale aggiuntiva è:
+
+O(k + log n)
