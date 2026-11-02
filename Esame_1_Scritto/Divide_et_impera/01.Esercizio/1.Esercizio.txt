@@ -1,0 +1,95 @@
+
+TRACCIA
+
+Si scriva un algoritmo ricorsivo, in pseudocodice, che dati
+due array A e B ordinati in maniera crescente, di lunghezza
+rispettivamente n e m, esegua il merge di A e B e memorizzi
+il risultato in un array C ordinato in maniera crescente.
+
+
+ALGORITMO DI BASE UTILIZZATO: MERGE RICORSIVO
+
+Utilizziamo una versione ricorsiva della procedura MERGE.
+
+Confrontiamo gli elementi correnti dei due array e inseriamo
+in C quello più piccolo, avanzando nell'array corrispondente.
+
+Quando uno dei due array termina, copiamo ricorsivamente
+gli elementi rimanenti dell'altro array.
+
+
+MERGE-INIT(A, B)
+
+    n <- A.length                              // Numero di elementi di A
+
+    m <- B.length                              // Numero di elementi di B
+
+    C <- nuovo array di dimensione n+m         // Creo l'array che conterrà tutti gli elementi
+
+    MERGE-RIC(A, B, C, 1, 1, 1, n, m)          // Avvio il merge ricorsivo dai primi elementi
+
+    return C                                   // Restituisco l'array ordinato
+
+
+MERGE-RIC(A, B, C, i, j, k, n, m)
+
+    if i > n AND j > m                         // Controllo se entrambi gli array sono terminati
+        return                                 // Termino la ricorsione
+
+    if i > n                                   // Controllo se A è terminato
+        C[k] <- B[j]                           // Copio l'elemento corrente di B
+        MERGE-RIC(A, B, C, i, j+1, k+1, n, m) // Proseguo con il prossimo elemento di B
+        return                                 // Termino questa chiamata
+
+    if j > m                                   // Controllo se B è terminato
+        C[k] <- A[i]                           // Copio l'elemento corrente di A
+        MERGE-RIC(A, B, C, i+1, j, k+1, n, m) // Proseguo con il prossimo elemento di A
+        return                                 // Termino questa chiamata
+
+    if A[i] <= B[j]                            // Confronto gli elementi correnti
+        C[k] <- A[i]                           // Inserisco l'elemento minore di A
+        MERGE-RIC(A, B, C, i+1, j, k+1, n, m) // Avanzo in A e in C
+
+    else                                       // L'elemento di B è minore di quello di A
+        C[k] <- B[j]                           // Inserisco l'elemento minore di B
+        MERGE-RIC(A, B, C, i, j+1, k+1, n, m) // Avanzo in B e in C
+
+
+COMPLESSITA'
+
+Siano n e m le lunghezze degli array A e B.
+
+La creazione dell'array C di dimensione n+m costa:
+
+O(n+m)
+
+Ogni chiamata ricorsiva esegue un confronto e
+un numero costante di operazioni:
+
+O(1)
+
+A ogni chiamata viene inserito un elemento in C.
+
+Poiché dobbiamo inserire tutti gli n+m elementi,
+il numero totale di chiamate è:
+
+O(n+m)
+
+Quindi la complessità temporale totale è:
+
+O(n+m)
+
+
+COMPLESSITA' SPAZIALE
+
+L'array C occupa:
+
+O(n+m)
+
+La profondità massima della ricorsione è:
+
+O(n+m)
+
+Quindi la complessità spaziale aggiuntiva totale è:
+
+O(n+m)
