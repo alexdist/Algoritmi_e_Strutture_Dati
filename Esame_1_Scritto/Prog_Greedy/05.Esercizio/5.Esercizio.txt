@@ -1,0 +1,117 @@
+TRACCIA
+
+L'aeroporto di Capodichino dispone di un'unica pista di decollo.
+Sono presenti N aerei, ciascuno con un tempo di decollo t[i].
+
+Progettare un algoritmo che utilizzi una coda di priorità
+per minimizzare il tempo totale di attesa degli aerei.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Greedy SJF (Shortest Job First) con Min-Heap.
+
+L'idea consiste nel far decollare prima gli aerei che
+richiedono meno tempo.
+
+Utilizziamo una coda di min-priorità, in cui la chiave
+di ciascun aereo è il suo tempo di decollo t[i].
+
+A ogni iterazione estraiamo l'aereo con tempo minimo
+e aggiorniamo il tempo totale di attesa.
+
+Assumiamo che tutti gli aerei siano inizialmente disponibili.
+
+
+PSEUDOCODICE
+
+TEMPO-TOTALE-ATTESA(T)
+
+    n ← T.length                 // Numero totale di aerei
+
+    BUILD-MIN-HEAP(T)            // Costruisce il Min-Heap in O(n)
+
+    tempo ← 0                    // Tempo trascorso dall'inizio
+    attesa ← 0                   // Somma dei tempi di attesa
+
+    for i ← 1 to n              // Esegue un'iterazione per ogni aereo
+
+        k ← EXTRACT-MIN(T)       // Estrae il tempo di decollo minimo
+
+        attesa ← attesa + tempo  // Aggiunge l'attesa dell'aereo corrente
+
+        tempo ← tempo + k        // Aggiorna il tempo dopo il decollo
+
+    return attesa                // Restituisce il tempo totale di attesa
+
+
+ESEMPIO
+
+T = [6, 2, 4]
+
+Ordine di decollo scelto da SJF: [2, 4, 6]
+
+Primo aereo:
+    attesa = 0
+    tempo = 2
+
+Secondo aereo:
+    attesa = 0 + 2 = 2
+    tempo = 2 + 4 = 6
+
+Terzo aereo:
+    attesa = 2 + 6 = 8
+    tempo = 6 + 6 = 12
+
+Tempo totale di attesa = 8
+
+
+CORRETTEZZA
+
+La strategia SJF è ottimale perché, se due aerei consecutivi
+hanno tempi di decollo a > b, far decollare prima quello
+più breve (b) riduce il tempo di attesa complessivo.
+
+Ripetendo questo scambio, otteniamo un ordinamento crescente
+dei tempi di decollo, che minimizza l'attesa totale.
+
+
+ANALISI DELLA COMPLESSITÀ
+
+Complessità temporale:
+
+- BUILD-MIN-HEAP: O(n)
+- EXTRACT-MIN: O(log n), ripetuto n volte
+- Aggiornamenti delle variabili: O(1) per iterazione
+
+Complessità temporale totale: O(n log n)
+
+
+Complessità spaziale:
+
+- Il Min-Heap viene costruito direttamente nell'array T.
+- Utilizziamo soltanto un numero costante di variabili.
+
+Complessità spaziale aggiuntiva: O(1)
+
+Nota: si assume un'implementazione iterativa delle
+operazioni sul Min-Heap.
+
+
+DIFFERENZA TRA ATTESA E TURNAROUND
+
+Tempo di attesa:
+    È il tempo trascorso prima dell'inizio del decollo.
+
+Turnaround:
+    È il tempo trascorso fino al completamento del decollo.
+
+Turnaround = Attesa + Tempo di decollo
+
+Per calcolare il turnaround totale, all'interno del ciclo
+basta sostituire le istruzioni con:
+
+    tempo ← tempo + k
+    turnaround ← turnaround + tempo
+
+L'ordine SJF rimane ottimale in entrambi i casi.
