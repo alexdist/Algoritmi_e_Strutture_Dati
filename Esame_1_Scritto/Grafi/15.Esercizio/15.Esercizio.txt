@@ -1,0 +1,128 @@
+TRACCIA
+
+Dato un grafo orientato G = (V, E) e pesato con funzione
+peso w: E → R, scrivere in pseudocodice un algoritmo
+ricorsivo che restituisca la somma dei pesi del più
+lungo ciclo in G.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+DFS ricorsiva con backtracking.
+
+Avviamo una DFS da ogni vertice del grafo, considerandolo
+come sorgente del ciclo.
+
+Durante l'esplorazione manteniamo:
+- visited: vertici presenti nel cammino corrente
+- sum: somma dei pesi degli archi percorsi
+- nArchi: numero di archi percorsi
+- maxLength: lunghezza del ciclo più lungo trovato
+- maxSum: somma dei pesi del ciclo più lungo
+
+Quando torniamo alla sorgente, abbiamo trovato un ciclo.
+
+Se il ciclo è più lungo del migliore trovato finora,
+aggiorniamo maxLength e maxSum.
+
+Usiamo il backtracking per esplorare tutti i possibili
+cammini semplici.
+
+
+PSEUDOCODICE
+
+CICLO-PIU-LUNGO(G, w)
+
+    for each v ∈ V[G] do
+        visited[v] ← false       // Inizializza i vertici come non visitati
+
+    maxLength ← 0                // Lunghezza massima trovata
+    maxSum ← 0                   // Somma dei pesi del ciclo migliore
+
+    for each s ∈ V[G] do        // Considera ogni vertice come sorgente
+
+        DFS-CICLI(G, w, s, s, 0, 0, visited)
+                                 // Esplora tutti i cicli che partono da s
+
+    return maxSum                // Restituisce la somma dei pesi
+
+
+DFS-CICLI(G, w, u, sorgente, sum, nArchi, visited)
+
+    visited[u] ← true            // Inserisce u nel cammino corrente
+
+    for each v ∈ Adj[u] do      // Esamina tutti i vicini uscenti di u
+
+        if v = sorgente then    // L'arco (u,v) chiude un ciclo
+
+            lunghezzaCiclo ← nArchi + 1
+                                 // Conta anche l'arco di chiusura
+
+            sommaCiclo ← sum + w(u,v)
+                                 // Somma anche il peso dell'ultimo arco
+
+            if lunghezzaCiclo > maxLength then
+
+                maxLength ← lunghezzaCiclo
+                                 // Aggiorna la lunghezza massima
+
+                maxSum ← sommaCiclo
+                                 // Memorizza il peso del nuovo ciclo migliore
+
+        else if visited[v] = false then
+
+            DFS-CICLI(G, w, v, sorgente,
+                      sum + w(u,v),
+                      nArchi + 1,
+                      visited)
+                                 // Continua l'esplorazione ricorsiva
+
+    visited[u] ← false           // Backtracking: libera u per altri cammini
+
+
+NOTA SULLE VARIABILI
+
+maxLength e maxSum sono variabili condivise tra
+CICLO-PIU-LUNGO e DFS-CICLI.
+
+In alternativa possono essere passate per riferimento.
+
+Se il grafo non contiene cicli, l'algoritmo restituisce 0.
+
+Se esistono più cicli con la stessa lunghezza massima,
+viene restituita la somma dei pesi del primo trovato.
+
+
+CORRETTEZZA
+
+La DFS con backtracking esplora tutti i cammini semplici
+che partono da ciascuna sorgente.
+
+Quando un arco ritorna alla sorgente, viene individuato
+un ciclo semplice.
+
+Confrontando il numero di archi di ogni ciclo con
+maxLength, conserviamo sempre la lunghezza massima
+e la relativa somma dei pesi.
+
+Poiché ogni vertice viene considerato come sorgente,
+nessun ciclo semplice viene escluso.
+
+
+ANALISI DELLA COMPLESSITÀ
+
+Complessità temporale:
+
+La DFS con backtracking può esplorare un numero
+esponenziale/fattoriale di cammini semplici.
+
+Nel caso peggiore, per un grafo orientato completo,
+la complessità è O(n!), dove n = |V|.
+
+Complessità spaziale:
+
+- Array visited: O(n)
+- Stack ricorsivo: O(n)
+- Variabili ausiliarie: O(1)
+
+Complessità spaziale aggiuntiva: O(n)
