@@ -1,0 +1,122 @@
+TRACCIA
+
+Dato un grafo non orientato G = (V, E), implementare
+in pseudocodice un algoritmo ricorsivo che restituisca
+TRUE se in G è presente un ciclo Hamiltoniano e FALSE
+altrimenti.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+DFS ricorsiva con backtracking.
+
+Un ciclo Hamiltoniano è un ciclo che visita tutti i
+vertici del grafo esattamente una volta, tornando
+infine al vertice di partenza.
+
+L'idea è partire da un vertice qualsiasi e cercare
+ricorsivamente un cammino che attraversi tutti i
+vertici senza ripetizioni.
+
+Utilizziamo:
+- visited[v]: indica se v appartiene al cammino corrente
+- sorgente: vertice da cui parte la ricerca
+- count: numero di vertici visitati nel cammino corrente
+
+Se abbiamo visitato tutti gli n vertici e il vertice
+corrente è adiacente alla sorgente, abbiamo trovato
+un ciclo Hamiltoniano.
+
+Se un cammino non porta a una soluzione, utilizziamo
+il backtracking per esplorare altre possibilità.
+
+
+PSEUDOCODICE
+
+CICLO-HAMILTONIANO(G)
+
+    n ← |V[G]|                     // Numero di vertici del grafo
+
+    if n < 3 then                 // Un ciclo semplice richiede almeno 3 vertici
+        return FALSE
+
+    for each v ∈ V[G] do          // Inizializza l'array dei visitati
+        visited[v] ← false        // Nessun vertice è stato ancora visitato
+
+    sorgente ← un vertice di V[G] // Sceglie un vertice di partenza
+
+    return DFS-HAMILTON(G, sorgente, sorgente, 1, n, visited)
+                                  // Avvia la ricerca ricorsiva
+
+
+DFS-HAMILTON(G, u, sorgente, count, n, visited)
+
+    visited[u] ← true             // Segna u come appartenente al cammino
+
+    if count = n then             // Sono stati visitati tutti i vertici
+
+        if sorgente ∈ Adj[u] then // Verifica se è possibile chiudere il ciclo
+            visited[u] ← false   // Ripristina lo stato prima di terminare
+            return TRUE          // È stato trovato un ciclo Hamiltoniano
+
+        visited[u] ← false       // Il cammino non può chiudersi in un ciclo
+        return FALSE
+
+    for each v ∈ Adj[u] do       // Esamina tutti i vicini di u
+
+        if visited[v] = false then
+                                  // Evita di visitare due volte lo stesso vertice
+
+            if DFS-HAMILTON(G, v, sorgente, count + 1, n, visited) then
+                                  // Prosegue ricorsivamente sul vertice v
+
+                visited[u] ← false
+                                  // Ripristina lo stato del vertice corrente
+
+                return TRUE       // Propaga il risultato positivo
+
+    visited[u] ← false           // Backtracking: libera u per altri cammini
+
+    return FALSE                 // Nessun cammino valido trovato
+
+
+CORRETTEZZA
+
+L'algoritmo esplora ricorsivamente tutti i possibili
+cammini semplici che partono dalla sorgente.
+
+L'array visited impedisce di ripetere un vertice
+all'interno dello stesso cammino.
+
+Quando count = n, tutti i vertici sono stati visitati
+esattamente una volta.
+
+Se esiste anche un arco dall'ultimo vertice alla
+sorgente, il cammino forma un ciclo Hamiltoniano.
+
+Il backtracking permette di esplorare cammini
+alternativi quando quello corrente non è valido.
+
+Poiché ogni ciclo Hamiltoniano può essere percorso
+a partire da una sorgente qualsiasi, è sufficiente
+avviare la ricerca da un solo vertice.
+
+
+ANALISI DELLA COMPLESSITÀ
+
+Complessità temporale:
+
+Nel caso peggiore vengono esplorate un numero
+fattoriale di possibili sequenze di vertici.
+
+Complessità temporale: O(n!)
+
+Complessità spaziale:
+
+- Array visited: O(n)
+- Stack delle chiamate ricorsive: O(n)
+- Variabili ausiliarie: O(1)
+
+Complessità spaziale aggiuntiva: O(n)
+
+Dove n = |V|.
