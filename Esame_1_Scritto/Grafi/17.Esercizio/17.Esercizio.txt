@@ -1,0 +1,224 @@
+
+TRACCIA
+
+Dato un grafo orientato, aciclico e pesato G = (V,E), con funzione peso
+w : E -> R+ e un vertice s ∈ V, scrivere un algoritmo che restituisca,
+per ogni vertice v, il cammino minimo da s a v e il peso mediano
+dei cammini minimi da s.
+
+Analizzare la complessità nel caso peggiore.
+
+
+ALGORITMO DI BASE UTILIZZATO
+
+Dijkstra + SORT.
+
+Poiché tutti i pesi degli archi sono positivi, è possibile utilizzare
+Dijkstra per calcolare i cammini minimi dalla sorgente s.
+
+Dijkstra calcola:
+
+    d[v] = peso del cammino minimo da s a v
+
+    π[v] = predecessore di v nel cammino minimo
+
+Terminato Dijkstra, si costruisce una lista A contenente i pesi
+dei cammini minimi dalla sorgente ai vertici raggiungibili.
+
+La lista A viene ordinata in ordine crescente utilizzando SORT.
+
+Una volta ordinata A, è possibile individuare il peso mediano
+accedendo direttamente alla posizione centrale.
+
+
+NOTA
+
+La sorgente s ha distanza d[s] = 0 e viene esclusa dal calcolo
+della mediana.
+
+Vengono esclusi anche i vertici irraggiungibili, per i quali d[v] = ∞.
+
+Se il numero di distanze considerate è pari, si assume come peso
+mediano quello dei due valori centrali avente peso minore
+(mediana inferiore).
+
+Questa convenzione deve essere specificata: se si richiede la
+mediana statistica, con un numero pari di valori bisogna calcolare
+la media dei due valori centrali.
+
+Si assume che gli array siano indicizzati a partire da 1.
+
+
+PSEUDOCODICE
+
+DIJKSTRA-MEDIANA(G, w, s)
+
+    INITIALIZE-SINGLE-SOURCE(G, s)
+
+    S <- ∅
+    Q <- V[G]
+
+    while Q != ∅
+
+        u <- EXTRACT_MIN(Q)
+
+        S <- S ∪ {u}
+
+        for ogni v ∈ Adj[u]
+
+            RELAX(u, v, w)
+
+
+    A <- lista vuota
+
+    for ogni v ∈ V[G]
+
+        if v != s AND d[v] != ∞
+
+            A.push(d[v])                    // Inserisco il peso del cammino minimo
+
+
+    SORT(A)                                  // Ordino le distanze in ordine crescente
+
+    m <- A.length                            // Numero di distanze considerate
+
+    if m = 0
+
+        mediana <- NIL
+
+    else
+
+        pos <- ceil(m / 2)                   // Posizione della mediana inferiore
+
+        mediana <- A[pos]                    // Peso mediano dei cammini minimi
+
+
+    return (d, π, mediana)
+
+
+COMPLESSITA'
+
+L'inizializzazione dei vertici richiede:
+
+    O(V)
+
+Utilizzando una coda di priorità implementata con Min-Heap binario,
+Dijkstra richiede:
+
+    O((V + E) log V)
+
+La costruzione della lista A richiede:
+
+    O(V)
+
+Assumendo che SORT utilizzi un algoritmo di ordinamento con
+complessità O(V log V) nel caso peggiore, l'ordinamento richiede:
+
+    O(V log V)
+
+Il calcolo della posizione mediana e l'accesso ad A[pos]
+richiedono tempo costante:
+
+    O(1)
+
+Pertanto la complessità totale nel caso peggiore è:
+
+    O((V + E) log V)
+
+Tempo: O((V + E) log V)
+
+Spazio ausiliario: O(V)
+
+
+RICOSTRUZIONE DEI CAMMINI MINIMI
+
+Dijkstra memorizza nell'array π i predecessori dei vertici
+appartenenti ai cammini minimi dalla sorgente s.
+
+Per ricostruire il cammino minimo da s a un vertice v,
+si risale attraverso i predecessori:
+
+    v, π[v], π[π[v]], ...
+
+fino a raggiungere la sorgente s.
+
+La sequenza ottenuta viene poi invertita per ottenere il cammino
+dalla sorgente al vertice di destinazione.
+
+Se v è irraggiungibile, non esiste un cammino da s a v.
+
+La coppia (d, π) rappresenta quindi i cammini minimi e i relativi pesi.
+
+Se la traccia richiede esplicitamente tutte le sequenze dei vertici,
+occorre ricostruirle e aggiungere il relativo costo alla complessità.
+
+
+DIFFERENZA RISPETTO ALLA SOLUZIONE CON KRUSKAL
+
+Nell'esercizio sull'MST, Kruskal esamina gli archi in ordine
+crescente di peso.
+
+Gli archi accettati vengono inseriti nella lista A mantenendo
+l'ordine crescente.
+
+Pertanto è possibile restituire direttamente:
+
+    return A[pos]
+
+Nell'esercizio con Dijkstra, invece, lo pseudocodice standard utilizza:
+
+    S <- S ∪ {u}
+
+S è un insieme di vertici e non una lista ordinata di distanze.
+
+Non è quindi corretto utilizzare:
+
+    return S[pos]
+
+Per risolvere il problema si costruisce, dopo Dijkstra,
+una nuova lista A contenente le distanze minime:
+
+    A <- lista vuota
+
+    for ogni v ∈ V[G]
+
+        if v != s AND d[v] != ∞
+
+            A.push(d[v])
+
+Successivamente si ordina A:
+
+    SORT(A)
+
+Si calcola la posizione centrale:
+
+    m <- A.length
+
+    pos <- ceil(m / 2)
+
+E si restituisce il peso mediano inferiore:
+
+    mediana <- A[pos]
+
+In questo modo Dijkstra rimane invariato e la mediana viene
+calcolata correttamente dopo l'ordinamento delle distanze.
+
+
+OSSERVAZIONE FINALE
+
+L'algoritmo è corretto perché:
+
+1. Dijkstra calcola i cammini minimi dalla sorgente s.
+
+2. La lista A contiene i pesi dei cammini minimi considerati.
+
+3. SORT ordina tali pesi in ordine crescente.
+
+4. La posizione ceil(m/2) individua la mediana inferiore.
+
+5. Gli array d e π permettono di ottenere i pesi e ricostruire
+   i cammini minimi per ogni vertice raggiungibile.
+
+La complessità totale, assumendo SORT in O(V log V), rimane:
+
+    O((V + E) log V)
